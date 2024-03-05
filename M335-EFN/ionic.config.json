@@ -1,0 +1,7 @@
+{
+  "name": "M335-EFN",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
