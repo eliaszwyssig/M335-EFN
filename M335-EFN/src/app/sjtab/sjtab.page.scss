@@ -1,0 +1,26 @@
+ion-header {
+  --background: #f8f8f8;
+}
+
+ion-title {
+  color: #387ef5;
+}
+
+.start-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+ion-button {
+  --border-radius: 0;
+  width: 200px;
+  height: 50px;
+  --background: #32db64;
+  --color: #fff;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 50%;
+  transform: translateY(-50%);
+}

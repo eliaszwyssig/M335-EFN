@@ -9,12 +9,12 @@ export const routes: Routes = [
       {
         path: 'sjtab',
         loadComponent: () =>
-          import('../sjtab/sjtab.page').then((m) => m.SjtabPage),
+          import('../sjtab/sjtab.page').then((m) => m.sjtabPage),
       },
       {
         path: 'lbtab',
         loadComponent: () =>
-          import('../lbtab/lbtab.page').then((m) => m.LbtabPage),
+          import('../lbtab/lbtab.page').then((m) => m.lbtabPage),
       },
       {
         path: '',
