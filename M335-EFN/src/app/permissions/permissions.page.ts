@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Camera } from '@capacitor/camera';
-import { Geolocation } from '@capacitor/geolocation';
+// import { Camera } from '@capacitor/camera';
+// import { Geolocation } from '@capacitor/geolocation';
 import {IonicModule} from "@ionic/angular";
 import {NgIf} from "@angular/common";
 import { Router } from '@angular/router';
