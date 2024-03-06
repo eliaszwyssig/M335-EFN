@@ -9,6 +9,8 @@
 
 
 <ion-content>
+
+  <ion-button (click)="addLeaderboardEntry()">Eintrag hinzufügen</ion-button>
   <ion-list *ngFor="let leaderboard of leaderboards; let i = index">
     <ion-item>
       <ion-label>{{ i + 1 }}. {{ leaderboard.playerName }} | Zeit: {{leaderboard.time}} </ion-label>

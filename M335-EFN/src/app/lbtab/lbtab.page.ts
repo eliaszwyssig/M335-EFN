@@ -7,24 +7,40 @@ import {
   IonList,
   IonLabel,
   IonItem,
-  IonImg
+  IonImg, IonButton
 } from '@ionic/angular/standalone';
 import {LEADERBOARDMOCK} from "../mock-leaderboard";
 import {NgFor} from "@angular/common";
+import {Storage} from "@ionic/storage-angular";
+import {Leaderboard} from "./leaderboard";
 
 @Component({
   selector: 'app-lbtab',
   templateUrl: 'lbtab.page.html',
   styleUrls: ['lbtab.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, NgFor, IonList, IonLabel, IonItem, IonImg]
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, NgFor, IonList, IonLabel, IonItem, IonImg, IonButton]
 })
 export class lbtabPage{
   leaderboards = LEADERBOARDMOCK;
 
 
-  constructor() {
-    this.sortLeaderboardsByTime();
+  constructor(private storage: Storage) {
+    this.loadLeaderboards();
+
+  }
+  async loadLeaderboards() {
+    await this.storage.create();
+    const storedLeaderboards = await this.storage.get('leaderboards');
+    if (storedLeaderboards) {
+      this.leaderboards = storedLeaderboards;
+      this.sortLeaderboardsByTime(); // Führe die Sortierung aus, nachdem die Daten geladen wurden
+    }
+  }
+
+  async saveLeaderboards() {
+    await this.storage.create();
+    await this.storage.set('leaderboards', this.leaderboards);
   }
 
   sortLeaderboardsByTime() {
@@ -35,13 +51,23 @@ export class lbtabPage{
     });
   }
 
-  convertTimeToSeconds(timeString: string): number {
-    const [hours, minutes] = timeString.split(':').map(Number);
-    return hours * 3600 + minutes * 60 ;
+  addLeaderboardEntry() {
+    const newEntry: Leaderboard = {
+      playerName: 'Test',
+      date: new Date(),
+      time: "3:00",
+      schnitzel: 2,
+      potato: 1
+    };
+    this.leaderboards.push(newEntry);
+    this.saveLeaderboards(); // Speichere die aktualisierten Daten
+    this.sortLeaderboardsByTime(); // Sortiere die Leaderboards nach dem Hinzufügen eines neuen Eintrags
   }
 
-
-
+  convertTimeToSeconds(timeString: string): number {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    return hours * 3600 + minutes * 60;
+  }
 
 }
 
