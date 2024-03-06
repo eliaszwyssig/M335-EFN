@@ -5,18 +5,22 @@ import { IonicModule } from '@ionic/angular';
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-aufgabe1',
-  templateUrl: './aufgabe1.page.html',
-  styleUrls: ['./aufgabe1.page.scss'],
+  selector: 'app-aufgabe3',
+  templateUrl: './aufgabe3.page.html',
+  styleUrls: ['./aufgabe3.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
-export class Aufgabe1Page {
+export class Aufgabe3Page{
 
   constructor(private router: Router) {}
 
-  async goToExercise2(){
-    this.router.navigateByUrl("/aufgabe2");
+  async goToExercise4(){
+    this.router.navigateByUrl("/aufgabe4");
   }
+
+
+
+
 
 }

@@ -2,21 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-aufgabe1',
-  templateUrl: './aufgabe1.page.html',
-  styleUrls: ['./aufgabe1.page.scss'],
+  selector: 'app-aufgabe6',
+  templateUrl: './aufgabe6.page.html',
+  styleUrls: ['./aufgabe6.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
-export class Aufgabe1Page {
+export class Aufgabe6Page implements OnInit {
 
-  constructor(private router: Router) {}
+  constructor() { }
 
-  async goToExercise2(){
-    this.router.navigateByUrl("/aufgabe2");
+  ngOnInit() {
   }
 
 }
