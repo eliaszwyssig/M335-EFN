@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {IonHeader, IonToolbar, IonTitle, IonContent, IonButton} from '@ionic/angular/standalone';
 import { AlertController } from '@ionic/angular';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-sjtab',
@@ -11,7 +12,8 @@ import { AlertController } from '@ionic/angular';
 })
 
 export class sjtabPage {
-  constructor(public alertController: AlertController) { }
+  constructor(public alertController: AlertController,
+              private router: Router) { }
 
   async presentAlert() {
     const alert = await this.alertController.create({
@@ -43,7 +45,7 @@ export class sjtabPage {
               await errorAlert.present();
               return false;
             } else {
-              console.log('Bestätigung weiter mit Name:', data.name);
+              this.router.navigateByUrl('/permissions');
               return true;
             }
           }
@@ -54,7 +56,7 @@ export class sjtabPage {
     await alert.present();
   }
 
-  startHunt() {
+  getPermissions() {
     this.presentAlert();
   }
 
