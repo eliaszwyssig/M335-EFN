@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import {addIcons} from "ionicons";
+import {wifiSharp} from "ionicons/icons";
+import { Network,  } from '@capacitor/network';
+import {ToastController} from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-aufgabe6',
@@ -10,11 +14,30 @@ import { IonicModule } from '@ionic/angular';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
-export class Aufgabe6Page implements OnInit {
+export class Aufgabe6Page  {
+  isConnectedToWifi = false;
+  constructor(private toastController: ToastController) {
+    addIcons({ wifiSharp})
+    this.checkWifiConnection();
+  }
 
-  constructor() { }
+  async checkWifiConnection() {
+    const status = await Network.getStatus();
+    if (status.connected && status.connectionType === 'wifi') {
+      this.isConnectedToWifi = true;
+      this.presentToast('Gerät ist mit einem WLAN-Netzwerk verbunden');
+    } else {
+      this.isConnectedToWifi = false;
+      this.presentToast('Gerät ist nicht mit einem WLAN-Netzwerk verbunden');
+    }
+  }
 
-  ngOnInit() {
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      position: "middle"
+    });
+    toast.present();
   }
 
 }
