@@ -6,11 +6,14 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <div *ngIf="showNameInput" class="name-input-container">
-    <ion-item lines="full">
-      <ion-label position="floating">Dein Name</ion-label>
-      <ion-input [(ngModel)]="playerName" type="text" placeholder="Dein Name"></ion-input>
-    </ion-item>
-    <div class="button-group" style="display:flex; margin-top: -12%; width: 100%" >
+    <div style="position:relative; width:100%;">
+      <ion-item lines="full">
+        <ion-label position="floating">Dein Name</ion-label>
+        <ion-input [(ngModel)]="playerName" type="text" placeholder="Dein Name"></ion-input>
+      </ion-item>
+      <p *ngIf="showError" style="position: fixed;" class="error-message">Bitte gib einen Namen ein!</p>
+    </div>
+    <div class="button-group" style="display:flex; margin-top: -12%; width: 100%">
       <ion-button style="font-size: 16px; width: 60%" color="medium" (click)="toggleNameInput(false)">Abbrechen</ion-button>
       <ion-button style="font-size: 16px; width: 50%" (click)="submitName()">Weiter</ion-button>
     </div>

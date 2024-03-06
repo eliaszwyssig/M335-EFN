@@ -25,6 +25,7 @@ import {NgIf} from "@angular/common";
 export class sjtabPage {
   showNameInput = false;
   playerName: string = '';
+  showError: boolean = false;
 
   constructor(public alertController: AlertController,
               private router: Router) { }
@@ -32,21 +33,24 @@ export class sjtabPage {
   toggleNameInput(show: boolean) {
     this.showNameInput = show;
     if (!show) {
-      this.playerName = '';
+      this.playerName = ''; // Setzt den Namen zurück, wenn der Benutzer abbricht
+      this.showError = false; // Versteckt die Fehlermeldung, falls vorhanden
     }
   }
 
-  async submitName() {
+  submitName() {
     if (this.playerName.trim() === '') {
-      const errorAlert = await this.alertController.create({
-        header: 'Fehler',
-        message: 'Bitte gib einen Namen ein!',
-        buttons: ['OK']
-      });
-      await errorAlert.present();
+      this.showError = true;
     } else {
+      this.showError = false;
       this.router.navigateByUrl('/permissions');
     }
   }
+
+  resetError() {
+    this.showError = false;
+  }
+
+
 
 }
