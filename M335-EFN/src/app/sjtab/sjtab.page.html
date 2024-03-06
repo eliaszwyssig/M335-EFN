@@ -4,8 +4,19 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <div class="start-button-container">
-    <ion-button expand="block" (click)="getPermissions()">START</ion-button>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div *ngIf="showNameInput" class="name-input-container">
+    <ion-item lines="full">
+      <ion-label position="floating">Dein Name</ion-label>
+      <ion-input [(ngModel)]="playerName" type="text" placeholder="Dein Name"></ion-input>
+    </ion-item>
+    <div class="button-group" style="display:flex; margin-top: -12%; width: 100%" >
+      <ion-button style="font-size: 16px; width: 60%" color="medium" (click)="toggleNameInput(false)">Abbrechen</ion-button>
+      <ion-button style="font-size: 16px; width: 50%" (click)="submitName()">Weiter</ion-button>
+    </div>
+  </div>
+
+  <div class="start-button-container" *ngIf="!showNameInput">
+    <ion-button expand="block" (click)="toggleNameInput(true)">START</ion-button>
   </div>
 </ion-content>
