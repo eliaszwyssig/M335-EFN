@@ -33,8 +33,19 @@ export class sjtabPage {
           }
         }, {
           text: 'Weiter',
-          handler: (data) => {
-            console.log('Bestätigung weiter mit Name:', data.name);
+          handler: async (data) => {
+            if (data.name.trim() === '') {
+              const errorAlert = await this.alertController.create({
+                header: 'Fehler',
+                message: 'Bitte gib einen Namen ein!',
+                buttons: ['OK']
+              });
+              await errorAlert.present();
+              return false;
+            } else {
+              console.log('Bestätigung weiter mit Name:', data.name);
+              return true;
+            }
           }
         }
       ]
