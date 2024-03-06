@@ -7,25 +7,25 @@ export const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'sjtab',
         loadComponent: () =>
-          import('../tab1/tab1.page').then((m) => m.Tab1Page),
+          import('../sjtab/sjtab.page').then((m) => m.SjtabPage),
       },
       {
-        path: 'tab2',
+        path: 'lbtab',
         loadComponent: () =>
-          import('../tab2/tab2.page').then((m) => m.Tab2Page),
+          import('../lbtab/lbtab.page').then((m) => m.LbtabPage),
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/sjtab',
         pathMatch: 'full',
       },
     ],
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/sjtab',
     pathMatch: 'full',
   },
 ];
