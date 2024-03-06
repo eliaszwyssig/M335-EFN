@@ -5,25 +5,23 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-item lines="none">
-    <ion-label>Kamera-Zugriff anfordern</ion-label>
-    <ion-checkbox slot="end" [checked]="cameraPermissionGranted" color="primary" disabled="true"></ion-checkbox>
+  <ion-item lines="none" class="permission-item">
+    <ion-label [class]="cameraPermissionGranted ? 'permission-granted' : ''">Kamera-Zugriff anfordern</ion-label>
     <ion-button fill="clear" slot="end" (click)="requestCameraPermission()">
       Anfordern
     </ion-button>
   </ion-item>
 
-  <ion-item lines="none">
-    <ion-label>Standort anfordern</ion-label>
-    <ion-checkbox slot="end" [checked]="locationPermissionGranted" color="primary" disabled="true"></ion-checkbox>
+  <ion-item lines="none" class="permission-item">
+    <ion-label [class]="locationPermissionGranted ? 'permission-granted' : ''">Standort anfordern</ion-label>
     <ion-button fill="clear" slot="end" (click)="requestGeolocationPermission()">
       Anfordern
     </ion-button>
   </ion-item>
+
   <div *ngIf="cameraPermissionGranted && locationPermissionGranted" class="ion-padding">
     <ion-button expand="block" (click)="startHunt()">
       Die Jagd starten
     </ion-button>
   </div>
-
 </ion-content>

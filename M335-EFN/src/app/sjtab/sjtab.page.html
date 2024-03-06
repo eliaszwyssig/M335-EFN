@@ -3,7 +3,6 @@
     <ion-title>Schnitzeljagd</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true" class="ion-padding">
   <div *ngIf="showNameInput" class="name-input-container">
     <div style="position:relative; width:100%;">
@@ -18,7 +17,6 @@
       <ion-button style="font-size: 16px; width: 50%" (click)="submitName()">Weiter</ion-button>
     </div>
   </div>
-
   <div class="start-button-container" *ngIf="!showNameInput">
     <ion-button expand="block" (click)="toggleNameInput(true)">START</ion-button>
   </div>
