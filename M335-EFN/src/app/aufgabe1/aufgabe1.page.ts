@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from "@angular/router";
 // @ts-ignore
-import { Geolocation, GeolocationPosition, GeolocationOptions } from '@capacitor/geolocation';
+import {Geolocation, Position} from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-aufgabe1',
@@ -16,6 +16,7 @@ import { Geolocation, GeolocationPosition, GeolocationOptions } from '@capacitor
 export class Aufgabe1Page {
   distance: number = 0;
   watchId: string | undefined;
+  location = {lat: 0, ltd: 0};
 
   constructor(private router: Router) { }
 
@@ -32,7 +33,7 @@ export class Aufgabe1Page {
   }
 
   async startWatchingPosition() {
-    const options: GeolocationOptions = {
+    const options = {
       enableHighAccuracy: true,
       maximumAge: 30000,
       timeout: 27000
@@ -40,6 +41,8 @@ export class Aufgabe1Page {
 
     this.watchId = await Geolocation.watchPosition(options, (position, err) => {
       if (position && !err) {
+        this.location.lat = position.coords.latitude;
+        this.location.ltd = position.coords.longitude;
         this.updateDistance(position);
       } else {
         console.error("Error getting current position:", err);
@@ -53,7 +56,7 @@ export class Aufgabe1Page {
     }
   }
 
-  async updateDistance(position: GeolocationPosition) {
+  async updateDistance(position: Position) {
     const coords1 = { latitude: position.coords.latitude, longitude: position.coords.longitude };
     const coords2 = { latitude: 47.071586, longitude: 8.348635 }; // Beispielkoordinaten, anpassen
     this.distance = this.haversineDistance(coords1, coords2);

@@ -11,6 +11,18 @@
     </ion-toolbar>
   </ion-header>
 
+  <ion-button *ngIf="!isDone" (click)="scanQRCode()">
+    QR-Code scannen
+  </ion-button>
+
+  <div *ngIf="isDone">
+    <h1>Glückwunsch, DONE!</h1>
+  </div>
+
+  <div *ngIf="wrongQRCode" class="error-message">
+    {{ wrongQRCode }}
+  </div>
+
   <ion-button expand="block" (click)="goToExercise3()">
     Aufgabe 3
   </ion-button>
