@@ -23,35 +23,28 @@ export class Aufgabe2Page implements OnInit {
   }
 
   async scanQRCode() {
-    const status = await BarcodeScanner.checkPermissions();
-
-    if (status.camera === 'denied' || status.camera === 'prompt') {
-      this.wrongQRCode = 'Kamerazugriff verweigert. Bitte in den Einstellungen erlauben.';
-      return;
-    }
-
-    if (status.camera === 'granted') {
-      try {
-        const result = await BarcodeScanner.scan();
-        if (result.barcodes.length > 0) {
-          const scannedCode = result.barcodes[0];
-          this.zone.run(() => {
-            if (scannedCode.displayValue === 'M335-EFN') {
-              this.isDone = true;
-              this.wrongQRCode = '';
-            } else {
-              this.isDone = false;
-              this.wrongQRCode = 'Falscher QR-Code!';
-            }
-          });
-        }
-      } catch (error) {
+    // Öffne den Barcode-Scanner ohne vorherige Berechtigungsüberprüfung.
+    try {
+      const result = await BarcodeScanner.scan();
+      if (result.barcodes.length > 0) {
+        const scannedCode = result.barcodes[0];
         this.zone.run(() => {
-          this.wrongQRCode = 'Fehler beim Scannen. Bitte versuche es erneut.';
+          if (scannedCode.displayValue === 'M335-EFN') {
+            this.isDone = true;
+            this.wrongQRCode = '';
+          } else {
+            this.isDone = false;
+            this.wrongQRCode = 'Falscher QR-Code!';
+          }
         });
       }
+    } catch (error) {
+      this.zone.run(() => {
+        this.wrongQRCode = 'Fehler beim Scannen. Bitte versuche es erneut.';
+      });
     }
   }
+
 
   goToExercise3() {
     this.router.navigateByUrl('/aufgabe3');
