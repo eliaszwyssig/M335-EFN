@@ -13,4 +13,23 @@
   <ion-button expand="block" (click)="goToExercise6()">
     Aufgabe 6
   </ion-button>
+
+  <ion-label class="task-title">
+    Drehe dein Smartphone:
+  </ion-label>
+  <br>
+  <ion-label *ngIf="!turnedRight">
+    nach Rechts
+  </ion-label>
+  <ion-label *ngIf="turnedRight" class="success">
+    nach Rechts
+  </ion-label>
+
+  <br>
+  <ion-label *ngIf="!turnedLeft">
+    nach Links
+  </ion-label>
+  <ion-label *ngIf="turnedLeft" class="success">
+    nach Links
+  </ion-label>
 </ion-content>
