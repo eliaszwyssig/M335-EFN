@@ -6,6 +6,7 @@ import {addIcons} from "ionicons";
 import { wifiSharp} from "ionicons/icons";
 import { Network,  } from '@capacitor/network';
 import {ToastController} from "@ionic/angular/standalone";
+import {ResultServiceService} from "../result-service.service";
 
 @Component({
   selector: 'app-aufgabe6',
@@ -16,29 +17,40 @@ import {ToastController} from "@ionic/angular/standalone";
 })
 export class Aufgabe6Page {
   isConnectedToWifi = false;
+  isDisconnectedToWifi: boolean = false;
+  timer: any;
 
-  constructor(private toastController: ToastController) {
+  constructor(private resultService: ResultServiceService) {
     addIcons({ wifiSharp });
-    this.checkWifiConnection(); // Initial check
-    setInterval(() => this.checkWifiConnection(), 5000); // Check every 5 seconds
+    this.checkWifiConnection();
+    setInterval(() => this.checkWifiConnection(), 5000);
+    this.startTimer();
   }
 
   async checkWifiConnection() {
     const status = await Network.getStatus();
     if (status.connected && status.connectionType === 'wifi') {
       this.isConnectedToWifi = true;
-      this.presentToast('Gerät ist mit einem WLAN-Netzwerk verbunden');
     } else {
-      this.isConnectedToWifi = false;
-      this.presentToast('Gerät ist nicht mit einem WLAN-Netzwerk verbunden');
+      this.isDisconnectedToWifi = true;
+    }
+    this.isSuccessfull();
+  }
+  startTimer(): void {
+    this.timer = setInterval(() => {
+      console.log('Timer tick');
+    }, 1000)
+  }
+  stopTimer(): void {
+    clearInterval(this.timer);
+  }
+
+  isSuccessfull(): void{
+    if (this.isDisconnectedToWifi && this.isConnectedToWifi){
+    this.resultService.getResult(this.timer);
+    this.stopTimer();
     }
   }
 
-  async presentToast(message: string) {
-    const toast = await this.toastController.create({
-      message: message,
-      position: "middle"
-    });
-    toast.present();
-  }
+
 }
