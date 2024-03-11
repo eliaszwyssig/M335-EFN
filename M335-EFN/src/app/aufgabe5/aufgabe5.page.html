@@ -10,26 +10,35 @@
       <ion-title size="large">Aufgabe5</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <h2 class="center-text">
+    Drehe dein Smartphone:
+  </h2>
+  <br>
+  <h4 *ngIf="!turnedRight" class="center-text">
+    nach Rechts
+  </h4>
+  <h4 *ngIf="turnedRight" class="success center-text">
+    nach Rechts
+  </h4>
+
+  <br>
+  <h4 *ngIf="!turnedLeft" class="center-text">
+    nach Links
+  </h4>
+  <h4 *ngIf="turnedLeft" class="success center-text">
+    nach Links
+  </h4>
+
+  <div class="center-text margin-top" *ngIf="turnedLeft && turnedRight">
+    <p>Herzliche Glückwunsch, du hast die Aufgabe 5 geschafft</p>
+
+    <ion-button expand="block" (click)="goToExercise6()">
+      Aufgabe 6
+    </ion-button>
+  </div>
+
   <ion-button expand="block" (click)="goToExercise6()">
     Aufgabe 6
   </ion-button>
-
-  <ion-label class="task-title">
-    Drehe dein Smartphone:
-  </ion-label>
-  <br>
-  <ion-label *ngIf="!turnedRight">
-    nach Rechts
-  </ion-label>
-  <ion-label *ngIf="turnedRight" class="success">
-    nach Rechts
-  </ion-label>
-
-  <br>
-  <ion-label *ngIf="!turnedLeft">
-    nach Links
-  </ion-label>
-  <ion-label *ngIf="turnedLeft" class="success">
-    nach Links
-  </ion-label>
 </ion-content>
