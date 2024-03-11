@@ -34,7 +34,7 @@ export class lbtabPage{
     const storedLeaderboards = await this.storage.get('leaderboards');
     if (storedLeaderboards) {
       this.leaderboards = storedLeaderboards;
-      this.sortLeaderboardsByTime(); // Führe die Sortierung aus, nachdem die Daten geladen wurden
+      this.sortLeaderboardsByTime();
     }
   }
 
@@ -60,8 +60,8 @@ export class lbtabPage{
       potato: 1
     };
     this.leaderboards.push(newEntry);
-    this.saveLeaderboards(); // Speichere die aktualisierten Daten
-    this.sortLeaderboardsByTime(); // Sortiere die Leaderboards nach dem Hinzufügen eines neuen Eintrags
+    this.saveLeaderboards();
+    this.sortLeaderboardsByTime();
   }
 
   convertTimeToSeconds(timeString: string): number {

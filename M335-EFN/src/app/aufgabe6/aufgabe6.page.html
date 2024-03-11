@@ -1,13 +1,22 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Aufgabe6</ion-title>
+    <ion-title>Aufgabe 06</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Aufgabe6</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-label>
+  <ion-text class="task-title">WLAN verbinden und trennen</ion-text>
+  </ion-label>
+  <br>
+  <ion-label>
+    <ion-text *ngIf="!isConnectedToWifi">WLAN verbunden</ion-text>
+    <ion-text *ngIf="isConnectedToWifi" class="success">WLAN verbunden</ion-text>
+  </ion-label>
+<br>
+  <ion-label>
+    <ion-text *ngIf="isConnectedToWifi">WLAN trennen</ion-text>
+    <ion-text *ngIf="!isConnectedToWifi" class="success">WLAN trennen</ion-text>
+  </ion-label>
+
 </ion-content>
