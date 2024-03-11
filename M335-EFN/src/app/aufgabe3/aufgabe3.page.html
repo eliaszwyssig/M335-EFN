@@ -10,6 +10,9 @@
       <ion-title size="large">Aufgabe3</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-label *ngIf="targetReached()">
+    geschafft
+  </ion-label>
   <ion-button expand="block" (click)="goToExercise4()">
     Aufgabe 4
   </ion-button>
