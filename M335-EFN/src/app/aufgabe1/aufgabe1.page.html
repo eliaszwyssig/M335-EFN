@@ -25,6 +25,8 @@
     Ziel Erreicht
   </div>
 
+  <ion-button (click)="updateCurrentPosition()">Aktualisiere Position</ion-button>
+
   <ion-button *ngIf="distance !== null && distance < 3" expand="block" (click)="goToExercise2()">
     Aufgabe 2
   </ion-button>
