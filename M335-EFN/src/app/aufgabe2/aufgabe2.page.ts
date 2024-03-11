@@ -33,21 +33,25 @@ export class Aufgabe2Page implements OnInit {
 
     try {
       const result = await BarcodeScanner.scan();
-
       if (result.barcodes.length > 0) {
         const scannedCode = result.barcodes[0];
         if (scannedCode.rawValue === 'M335-EFN') {
           this.isDone = true;
+          this.wrongQRCode = '';
         } else {
-          this.wrongQRCode = 'Falscher QR-Code!';
           this.isDone = false;
+          this.wrongQRCode = 'Falscher QR-Code!';
         }
       } else {
-        this.wrongQRCode = 'Kein QR-Code gescannt.';
         this.isDone = false;
+        this.wrongQRCode = 'Kein QR-Code gescannt.';
       }
-    } catch (error) {
-      this.wrongQRCode = 'Fehler beim Scannen. Bitte versuche es erneut.';
+    } catch (error: unknown) {
+      let errorMessage = 'Unbekannter Fehler';
+      if (typeof error === "object" && error !== null && "message" in error) {
+        errorMessage = (error as { message: string }).message;
+      }
+      this.wrongQRCode = `Fehler beim Scannen: ${errorMessage}`;
     }
   }
 
