@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {IonicModule} from '@ionic/angular';
+import {BarcodeScanner} from '@capacitor-mlkit/barcode-scanning';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-aufgabe2',
@@ -17,8 +17,10 @@ export class Aufgabe2Page implements OnInit {
   isDone: boolean = false;
   scanAttempted: boolean = false;
   wrongQRCode: string = '';
+  cameraReady: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   ngOnInit() {
     BarcodeScanner.isSupported().then((result) => {
@@ -39,13 +41,13 @@ export class Aufgabe2Page implements OnInit {
     }
 
     const result = await BarcodeScanner.scan();
+    this.cameraReady = true;
     this.scanAttempted = true;
 
     if (result.barcodes.length > 0) {
       if (result.barcodes[0].rawValue === 'M335-EFN') {
         this.isDone = true;
         this.wrongQRCode = '';
-        // Führe die Logik für den Abschluss der Aufgabe hier aus
       } else {
         this.wrongQRCode = 'Falscher QR-Code!';
         this.isDone = false;
