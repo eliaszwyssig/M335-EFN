@@ -6,12 +6,17 @@
 
 <ion-content>
   <ion-label>
-  <ion-text class="task-title">Verbinde dich mit einem verfügbaren WLAN</ion-text>
+  <ion-text class="task-title">WLAN verbinden und trennen</ion-text>
   </ion-label>
   <br>
   <ion-label>
-    <ion-text class="task">test</ion-text>
+    <ion-text *ngIf="!isConnectedToWifi">WLAN verbunden</ion-text>
+    <ion-text *ngIf="isConnectedToWifi" class="success">WLAN verbunden</ion-text>
   </ion-label>
-
+<br>
+  <ion-label>
+    <ion-text *ngIf="isConnectedToWifi">WLAN trennen</ion-text>
+    <ion-text *ngIf="!isConnectedToWifi" class="success">WLAN trennen</ion-text>
+  </ion-label>
 
 </ion-content>
