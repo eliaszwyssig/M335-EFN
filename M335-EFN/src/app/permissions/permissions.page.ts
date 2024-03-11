@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-// import { Camera } from '@capacitor/camera';
-// import { Geolocation } from '@capacitor/geolocation';
-import {IonicModule} from "@ionic/angular";
-import {NgIf} from "@angular/common";
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Geolocation } from '@capacitor/geolocation';
+import { IonicModule } from "@ionic/angular";
+import { NgIf } from "@angular/common";
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-permissions',
@@ -27,26 +26,27 @@ export class PermissionsPage {
   }
 
   async checkPermissions(): Promise<void> {
-    //const cameraStatus = await Camera.checkPermissions();
-    //this.cameraPermissionGranted = cameraStatus.camera === 'granted';
+    const cameraStatus = await Camera.checkPermissions();
+    this.cameraPermissionGranted = cameraStatus.camera === 'granted';
 
-    //const geolocationStatus = await Geolocation.checkPermissions();
-    //this.locationPermissionGranted = geolocationStatus.location === 'granted';
+    const geolocationStatus = await Geolocation.checkPermissions();
+    this.locationPermissionGranted = geolocationStatus.location === 'granted';
   }
 
   async requestCameraPermission(): Promise<void> {
-    //await Camera.requestPermissions({ permissions: ['camera'] });
+    await Camera.requestPermissions({ permissions: ['camera'] });
     this.checkPermissions();
-    this.cameraPermissionGranted = true;
   }
 
   async requestGeolocationPermission(): Promise<void> {
-    //await Geolocation.requestPermissions();
+    await Geolocation.requestPermissions({ permissions: ['location'] });
     this.checkPermissions();
-    this.locationPermissionGranted = true;
   }
 
-  async startHunt(){
-    this.router.navigateByUrl('/aufgabe1');
+  startHunt() {
+    if(this.cameraPermissionGranted && this.locationPermissionGranted) {
+      this.router.navigateByUrl('/aufgabe1');
+    } else {
+    }
   }
 }

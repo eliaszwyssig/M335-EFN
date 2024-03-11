@@ -30,13 +30,14 @@ export class Aufgabe2Page implements OnInit {
   }
 
   async scanQRCode() {
-    const result = await BarcodeScanner.scan();
-    if (result.barcodes[0].valueType === 'TEXT' && result.barcodes[0].displayValue === 'M335-EFN') {
-      this.wrongQRCode = "";
-      this.isDone = true
-    } else {
-      this.wrongQRCode = "Falscher QR-Code!";
-    }
+    const result = BarcodeScanner.scan().then((res)=> {
+      if (res.barcodes[0].valueType === 'TEXT' && res.barcodes[0].displayValue === 'M335-EFN') {
+        this.wrongQRCode = "";
+        this.isDone = true
+      } else {
+        this.wrongQRCode = "Falscher QR-Code!";
+      }
+    });
   }
 
   async goToExercise3() {
