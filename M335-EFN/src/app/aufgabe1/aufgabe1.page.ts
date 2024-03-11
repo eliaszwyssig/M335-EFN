@@ -3,6 +3,7 @@ import { Geolocation, Position } from '@capacitor/geolocation';
 import { Router } from '@angular/router';
 import { IonicModule } from "@ionic/angular";
 import { DecimalPipe, NgIf } from "@angular/common";
+import {ResultServiceService} from "../result-service.service";
 
 @Component({
   selector: 'app-aufgabe1',
@@ -16,8 +17,11 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
   location = { lat: 0, lng: 0 };
   targetLocation = { lat: 47.071586, lng: 8.348635 };
   watchId: string | null = null;
+  timer: any;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private resultService: ResultServiceService) {
+    this.startTimer();
+  }
 
   ngOnInit() {
     this.startWatchingPosition();
@@ -70,9 +74,22 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
 
   targetReached() {
     this.stopWatchingPosition();
+    this.isSuccessfull();
     this.router.navigateByUrl('/nächsteSeite');
   }
+  startTimer(): void {
+    this.timer = setInterval(() => {
+      console.log('Timer tick');
+    }, 1000)
+  }
+  stopTimer(): void {
+    clearInterval(this.timer);
+  }
+  isSuccessfull(): void{
+      this.resultService.getResult(this.timer);
+      this.stopTimer();
 
+  }
   haversineDistance(source: { lat: number, lng: number }, target: { lat: number, lng: number }): number {
     const toRad = (value: number) => (value * Math.PI) / 180;
     const R = 6371e3; // Erdradius in Metern

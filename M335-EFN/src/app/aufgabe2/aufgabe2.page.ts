@@ -1,9 +1,9 @@
-import { Component, NgZone, OnInit } from '@angular/core';
-import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
-import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {Component, NgZone, OnInit} from '@angular/core';
+import {BarcodeScanner} from '@capacitor-mlkit/barcode-scanning';
+import {Router} from '@angular/router';
+import {IonicModule} from '@ionic/angular';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-aufgabe2',
@@ -16,19 +16,20 @@ export class Aufgabe2Page implements OnInit {
   wrongQRCode: string = '';
   isDone: boolean = false;
 
-  constructor(private router: Router, private zone: NgZone) {}
+  constructor(private router: Router, private zone: NgZone) {
+  }
 
   ngOnInit() {
-    BarcodeScanner.prepare();
   }
 
   async scanQRCode() {
-    const allowed = await this.checkPermission();
-    if (allowed) {
-      const result = await BarcodeScanner.startScan(); // start scanning and wait for a result
-      if (result.hasContent) {
+    // Öffne den Barcode-Scanner ohne vorherige Berechtigungsüberprüfung.
+    try {
+      const result = await BarcodeScanner.scan();
+      if (result.barcodes.length > 0) {
+        const scannedCode = result.barcodes[0];
         this.zone.run(() => {
-          if (result.content === 'M335-EFN') { // if the result matches your QR content
+          if (scannedCode.displayValue === 'M335-EFN') {
             this.isDone = true;
             this.wrongQRCode = '';
           } else {
@@ -37,27 +38,19 @@ export class Aufgabe2Page implements OnInit {
           }
         });
       }
-    } else {
-      this.wrongQRCode = 'Keine Kameraberechtigung!';
+    } catch (error) {
+      this.zone.run(() => {
+        this.wrongQRCode = 'Fehler beim Scannen. Bitte versuche es erneut.';
+      });
     }
   }
 
-  private async checkPermission(): Promise<boolean> {
-    // Check or request permission
-    const status = await BarcodeScanner.checkPermission({ force: true });
-    if (status.granted) {
-      return true;
-    }
 
-    await BarcodeScanner.openAppSettings();
-    return false;
-  }
-
-  async goToExercise3() {
+  goToExercise3() {
     this.router.navigateByUrl('/aufgabe3');
   }
 
   ngOnDestroy() {
-    BarcodeScanner.stopScan(); // Make sure to stop scanning if the view is left
+    BarcodeScanner.stopScan();
   }
 }
