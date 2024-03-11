@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import {addIcons} from "ionicons";
-import {wifiSharp} from "ionicons/icons";
+import { wifiSharp} from "ionicons/icons";
 import { Network,  } from '@capacitor/network';
 import {ToastController} from "@ionic/angular/standalone";
 
@@ -14,11 +14,13 @@ import {ToastController} from "@ionic/angular/standalone";
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
-export class Aufgabe6Page  {
+export class Aufgabe6Page {
   isConnectedToWifi = false;
+
   constructor(private toastController: ToastController) {
-    addIcons({ wifiSharp})
-    this.checkWifiConnection();
+    addIcons({ wifiSharp });
+    this.checkWifiConnection(); // Initial check
+    setInterval(() => this.checkWifiConnection(), 5000); // Check every 5 seconds
   }
 
   async checkWifiConnection() {
@@ -39,5 +41,4 @@ export class Aufgabe6Page  {
     });
     toast.present();
   }
-
 }
