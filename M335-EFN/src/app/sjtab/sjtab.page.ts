@@ -13,6 +13,7 @@ import { AlertController } from '@ionic/angular';
 import { Router } from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
+import {ResultServiceService} from "../result-service.service";
 
 @Component({
   selector: 'app-sjtab',
@@ -28,7 +29,9 @@ export class sjtabPage {
   showError: boolean = false;
 
   constructor(public alertController: AlertController,
-              private router: Router) { }
+              private router: Router, private resultService: ResultServiceService) { }
+
+
 
   toggleNameInput(show: boolean) {
     this.showNameInput = show;
@@ -43,6 +46,7 @@ export class sjtabPage {
       this.showError = true;
     } else {
       this.showError = false;
+      this.resultService.name = this.playerName
       this.router.navigateByUrl('/permissions');
     }
   }

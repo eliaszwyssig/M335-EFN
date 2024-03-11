@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {sjtabPage} from "./sjtab/sjtab.page";
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,7 @@ schnitzelCounter: number = 0;
 potatoCounter: number = 0;
 overallTime: number = 0;
 tasks: number = 0;
+name: string = '';
   constructor() { }
 
   getResult(timeTaken: number): void {

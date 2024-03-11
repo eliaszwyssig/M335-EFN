@@ -6,6 +6,8 @@ import {addIcons} from "ionicons";
 import { Network,  } from '@capacitor/network';
 import {ResultServiceService} from "../result-service.service";
 import {wifiSharp} from "ionicons/icons";
+import {Router} from "@angular/router";
+
 
 
 @Component({
@@ -20,7 +22,7 @@ export class Aufgabe6Page {
   isDisconnectedToWifi: boolean = false;
   timer: any;
 
-  constructor(private resultService: ResultServiceService) {
+  constructor(private router: Router, private resultService: ResultServiceService) {
     addIcons({ wifiSharp });
     this.checkWifiConnection();
     setInterval(() => this.checkWifiConnection(), 5000);
@@ -50,6 +52,10 @@ export class Aufgabe6Page {
     this.resultService.getResult(this.timer);
     this.stopTimer();
     }
+  }
+
+  async goToResults(){
+    this.router.navigateByUrl("/resultat");
   }
 
 
