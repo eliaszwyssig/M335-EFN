@@ -19,6 +19,9 @@
   <ion-item *ngIf="distance !== null">
     <ion-label>Entfernung zum Ziel:</ion-label>
     <h4>{{ distance | number: '1.2-2' }} Meter</h4>
+    <div *ngIf="distance > 3">
+      {{ distanceMarkers }}
+    </div>
   </ion-item>
 
   <div *ngIf="distance !== null && distance < 3" class="congratulations-block">
@@ -28,7 +31,7 @@
     </ion-button>
   </div>
 
-  <ion-button (click)="goToExercise2()">
-    Aufgabe 2
+  <ion-button *ngIf="distance !== null && distance <= 3" (click)="goToExercise2()">
+    Weiter zur Aufgabe 2
   </ion-button>
 </ion-content>
