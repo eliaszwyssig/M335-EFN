@@ -1,16 +1,24 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Aufgabe4</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Aufgabe4</ion-title>
+      <ion-title size="large">Aufgabe5</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-button expand="block" (click)="goToExercise5()">
+
+  <ion-grid class="ion-text-center ion-margin-top">
+    <ion-row>
+      <h2>Bitte stecke das Handy an eine Stromquelle an</h2>
+      <ion-col size="12">
+        <ion-icon *ngIf="isCharging" name='battery-charging' class="battery-icon" color="success"></ion-icon>
+        <ion-icon *ngIf="!isCharging" name='battery-dead' class="battery-icon" color="danger"></ion-icon>
+        <h2 *ngIf="isCharging"> Glückwunsch du hast die Aufgabe 4 geschafft</h2>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+  <ion-button *ngIf="isCharging" expand="block" (click)="goToExercise6()">
     Aufgabe 5
   </ion-button>
 </ion-content>
