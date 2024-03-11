@@ -32,6 +32,10 @@ export const routes: Routes = [
     path: 'aufgabe6',
     loadComponent: () => import('./aufgabe6/aufgabe6.page').then( m => m.Aufgabe6Page)
   },
+  {
+    path: 'resultat',
+    loadComponent: () => import('./resultat/resultat.page').then( m => m.ResultatPage)
+  },
 
 
 

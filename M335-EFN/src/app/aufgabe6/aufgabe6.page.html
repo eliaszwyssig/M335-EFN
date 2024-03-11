@@ -14,6 +14,6 @@
   </div>
   <h4 class="task-title" *ngIf="!isConnectedToWifi"> Verbinde dein Handy mit dem WLAN </h4>
 
-  <ion-button class="wlan-button" *ngIf="isConnectedToWifi"> Beenden und Resultate anschauen</ion-button>
+  <ion-button class="wlan-button" (click)="goToResults()" *ngIf="isConnectedToWifi"> Beenden und Resultate anschauen</ion-button>
 <br>
 </ion-content>
