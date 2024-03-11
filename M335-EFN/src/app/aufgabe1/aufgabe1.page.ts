@@ -15,7 +15,7 @@ import {ResultServiceService} from "../result-service.service";
 export class Aufgabe1Page implements OnInit, OnDestroy {
   distance: number | null = null;
   location = { lat: 0, lng: 0 };
-  targetLocation = { lat: 47.071586, lng: 8.348635 };
+  targetLocation = { lat: 47.071586, lng: 8.348635, initialDistance: 0 };
   watchId: string | null = null;
   timer: any;
   distanceMarkers: string = '';
@@ -35,6 +35,10 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
 
 
   async startWatchingPosition() {
+    if (!this.targetLocation.initialDistance) {
+      this.targetLocation.initialDistance = this.haversineDistance(this.location, this.targetLocation);
+    }
+
     const options = {
       enableHighAccuracy: true,
       timeout: 10000
@@ -76,12 +80,13 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
     const totalMarkers = 10;
     let progress = 0;
 
-    if (this.distance !== null && this.distance > 0) {
-      progress = Math.min(1, this.distance / this.distance);
+    if (this.distance !== null) {
+      progress = Math.min(this.distance / (this.targetLocation.initialDistance - 3), 1);
     }
 
-    const markersReached = Math.floor(progress * totalMarkers);
-    this.distanceMarkers = '—'.repeat(markersReached) + '📍' + '—'.repeat(totalMarkers - markersReached);
+    // Aktualisiere das Icon entsprechend des Fortschritts
+    const markersReached = Math.round(progress * totalMarkers);
+    this.distanceMarkers = '—'.repeat(markersReached) + '📍' + '—'.repeat(totalMarkers - markersReached - 1);
   }
 
   targetReached() {

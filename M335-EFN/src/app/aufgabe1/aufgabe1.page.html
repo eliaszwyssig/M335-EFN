@@ -16,12 +16,10 @@
     <ion-note slot="end">{{ location.lat }}, {{ location.lng }}</ion-note>
   </ion-item>
 
-  <ion-item *ngIf="distance !== null">
+  <ion-item *ngIf="distance !== null && distance > 3">
     <ion-label>Entfernung zum Ziel:</ion-label>
     <h4>{{ distance | number: '1.2-2' }} Meter</h4>
-    <div *ngIf="distance > 3">
-      {{ distanceMarkers }}
-    </div>
+    <div class="distance-indicator">{{ distanceMarkers }}</div>
   </ion-item>
 
   <div *ngIf="distance !== null && distance < 3" class="congratulations-block">
