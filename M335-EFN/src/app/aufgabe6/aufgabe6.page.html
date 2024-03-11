@@ -15,8 +15,8 @@
   </ion-label>
 <br>
   <ion-label>
-    <ion-text *ngIf="isConnectedToWifi">WLAN trennen</ion-text>
-    <ion-text *ngIf="!isConnectedToWifi" class="success">WLAN trennen</ion-text>
+    <ion-text *ngIf="!isDisconnectedToWifi">WLAN trennen</ion-text>
+    <ion-text *ngIf="isDisconnectedToWifi" class="success">WLAN trennen</ion-text>
   </ion-label>
 
 </ion-content>
