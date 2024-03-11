@@ -12,7 +12,7 @@
 
     <ion-icon *ngIf="isConnectedToWifi" name="wifi-sharp"/>
   </div>
-  <h4 class="task-title" *ngIf="isDisconnectedToWifi"> Verbinde dein Handy mit dem WLAN </h4>
+  <h4 class="task-title" *ngIf="!isConnectedToWifi"> Verbinde dein Handy mit dem WLAN </h4>
 
   <ion-button class="wlan-button" *ngIf="isConnectedToWifi"> Beenden und Resultate anschauen</ion-button>
 <br>
