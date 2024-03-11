@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
+import { Router } from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
-import {BarcodeScanner} from '@capacitor-mlkit/barcode-scanning';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-aufgabe2',
@@ -15,12 +15,9 @@ import {Router} from '@angular/router';
 export class Aufgabe2Page implements OnInit {
   isSupported = false;
   isDone: boolean = false;
-  scanAttempted: boolean = false;
   wrongQRCode: string = '';
-  cameraReady: boolean = false;
 
-  constructor(private router: Router) {
-  }
+  constructor(private router: Router) {}
 
   ngOnInit() {
     BarcodeScanner.isSupported().then((result) => {
@@ -34,42 +31,27 @@ export class Aufgabe2Page implements OnInit {
       return;
     }
 
-    const granted = await this.requestPermissions();
-    if (!granted) {
-      this.wrongQRCode = 'Kamerazugriff verweigert. Bitte in den Einstellungen erlauben.';
-      return;
-    }
+    try {
+      const result = await BarcodeScanner.scan();
 
-    const result = await BarcodeScanner.scan();
-    this.cameraReady = true;
-    this.scanAttempted = true;
-
-    if (result.barcodes.length > 0) {
-      if (result.barcodes[0].rawValue === 'M335-EFN') {
-        this.isDone = true;
-        this.wrongQRCode = '';
+      if (result.barcodes.length > 0) {
+        const scannedCode = result.barcodes[0];
+        if (scannedCode.rawValue === 'M335-EFN') {
+          this.isDone = true;
+        } else {
+          this.wrongQRCode = 'Falscher QR-Code!';
+          this.isDone = false;
+        }
       } else {
-        this.wrongQRCode = 'Falscher QR-Code!';
+        this.wrongQRCode = 'Kein QR-Code gescannt.';
         this.isDone = false;
       }
-    } else {
-      this.wrongQRCode = 'Kein QR-Code gescannt.';
-      this.isDone = false;
+    } catch (error) {
+      this.wrongQRCode = 'Fehler beim Scannen. Bitte versuche es erneut.';
     }
   }
 
-  async requestPermissions(): Promise<boolean> {
-    const status = await BarcodeScanner.checkPermissions();
-
-    if (status.camera === 'granted') {
-      return true;
-    }
-
-    const requestResult = await BarcodeScanner.requestPermissions();
-    return requestResult.camera === 'granted';
-  }
-
-  async goToExercise3() {
+  goToExercise3() {
     if (this.isDone) {
       this.router.navigateByUrl('/aufgabe3');
     }
