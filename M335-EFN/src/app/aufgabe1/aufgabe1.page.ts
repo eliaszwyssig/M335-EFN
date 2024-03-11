@@ -1,89 +1,88 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { Router } from "@angular/router";
-// @ts-ignore
-import {Geolocation, Position} from '@capacitor/geolocation';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Geolocation, Position } from '@capacitor/geolocation';
+import { Router } from '@angular/router';
+import {IonicModule} from "@ionic/angular";
+import {DecimalPipe} from "@angular/common";
 
 @Component({
   selector: 'app-aufgabe1',
   templateUrl: './aufgabe1.page.html',
   styleUrls: ['./aufgabe1.page.scss'],
-  standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  standalone:true,
+  imports: [IonicModule, DecimalPipe]
 })
-export class Aufgabe1Page {
-  distance: number = 0;
-  watchId: string | undefined;
-  location = {lat: 0, ltd: 0};
+export class Aufgabe1Page implements OnInit, OnDestroy {
+  distance: number | null = null;
+  watchId: string | null = null;
+  location = { lat: 0, lng: 0 };
+  targetLocation = { lat: 47.071586, lng: 8.348635 };
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit() {
-    this.startWatchingPosition(); // Starten der Positionsüberwachung beim Initialisieren der Seite
+    this.startWatchingPosition();
   }
 
   ngOnDestroy() {
-    this.stopWatchingPosition(); // Stoppen der Positionsüberwachung beim Verlassen der Seite
-  }
-
-  async goToExercise2() {
-    this.router.navigateByUrl("/aufgabe2");
+    this.stopWatchingPosition();
   }
 
   async startWatchingPosition() {
     const options = {
       enableHighAccuracy: true,
-      maximumAge: 30000,
       timeout: 27000
     };
 
+    // Fehlerbehebung: Entferne das 'await' Keyword, weil watchId ein Promise<string> zurückgibt.
     this.watchId = await Geolocation.watchPosition(options, (position, err) => {
-      if (position && !err) {
-        this.location.lat = position.coords.latitude;
-        this.location.ltd = position.coords.longitude;
-        this.updateDistance(position);
-      } else {
-        console.error("Error getting current position:", err);
+      if (position) {
+        this.updateLocation(position);
+        this.updateDistance();
+      } else if (err) {
+        console.error('Error watching position:', err);
       }
     });
   }
 
   stopWatchingPosition() {
     if (this.watchId) {
-      Geolocation.clearWatch({ id: this.watchId });
+      Geolocation.clearWatch({ id: this.watchId }).then(() => {
+        this.watchId = null;
+      });
     }
   }
 
-  async updateDistance(position: Position) {
-    const coords1 = { latitude: position.coords.latitude, longitude: position.coords.longitude };
-    const coords2 = { latitude: 47.071586, longitude: 8.348635 }; // Beispielkoordinaten, anpassen
-    this.distance = this.haversineDistance(coords1, coords2);
-    console.log("Distance:", this.distance);
+  updateLocation(position: Position) {
+    this.location.lat = position.coords.latitude;
+    this.location.lng = position.coords.longitude;
   }
 
-  haversineDistance(
-    coords1: { latitude: number; longitude: number },
-    coords2: { latitude: number; longitude: number },
-  ) {
+  updateDistance() {
+    this.distance = this.haversineDistance(this.location, this.targetLocation);
+    if (this.distance < 3) {
+      this.targetReached();
+    }
+  }
+
+  targetReached() {
+    // Diese Funktion wird aufgerufen, wenn der Benutzer weniger als 3 Meter vom Ziel entfernt ist
+    this.stopWatchingPosition(); // Optional: Beende die Positionsüberwachung, wenn das Ziel erreicht wurde
+    this.router.navigateByUrl('/nächsteSeite'); // Navigiere zur nächsten Seite
+  }
+
+  haversineDistance(source: { lat: number, lng: number }, target: { lat: number, lng: number }): number {
+    const toRad = (value: number) => (value * Math.PI) / 180;
     const R = 6371e3; // Erdradius in Metern
-    const lat1Rad = coords1.latitude * (Math.PI / 180);
-    const lat2Rad = coords2.latitude * (Math.PI / 180);
-    const deltaLat = (coords2.latitude - coords1.latitude) * (Math.PI / 180);
-    const deltaLon = (coords2.longitude - coords1.longitude) * (Math.PI / 180);
-
-    const a =
-      Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-      Math.cos(lat1Rad) *
-      Math.cos(lat2Rad) *
-      Math.sin(deltaLon / 2) *
-      Math.sin(deltaLon / 2);
-
+    const dLat = toRad(target.lat - source.lat);
+    const dLng = toRad(target.lng - source.lng);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(source.lat)) * Math.cos(toRad(target.lat)) *
+      Math.sin(dLng / 2) * Math.sin(dLng / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
     const distance = R * c;
-
-    return distance; // in Metern
+    return distance; // Distanz in Metern
+  }
+  async goToExercise2() {
+    this.router.navigateByUrl("/aufgabe2");
   }
 }

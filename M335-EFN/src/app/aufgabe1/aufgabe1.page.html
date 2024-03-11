@@ -11,17 +11,21 @@
     </ion-toolbar>
   </ion-header>
 
-  <!-- Anzeige der Entfernung -->
-  <ion-item *ngIf="distance !== null">
-    <ion-label>Entfernung:</ion-label>
-    <h4>{{ distance }} Meter</h4>
+  <ion-item>
+    <ion-label>Aktuelle Position:</ion-label>
+    <ion-note slot="end">{{ location.lat }}, {{ location.lng }}</ion-note>
   </ion-item>
 
-  <p>{{location.lat}}</p>
-  <p>{{location.ltd}}</p>
+  <ion-item *ngIf="distance !== null">
+    <ion-label>Entfernung zum Ziel:</ion-label>
+    <h4>{{ distance | number: '1.2-2' }} Meter</h4>
+  </ion-item>
 
-  <!-- Weiterleitung zu Aufgabe 2 -->
-  <ion-button expand="block" (click)="goToExercise2()">
+  <div *ngIf="distance < 3">
+    <ion-label>Ziel erreicht!</ion-label>
+  </div>
+
+  <ion-button *ngIf="distance < 3" expand="block" (click)="goToExercise2()">
     Aufgabe 2
   </ion-button>
 </ion-content>
