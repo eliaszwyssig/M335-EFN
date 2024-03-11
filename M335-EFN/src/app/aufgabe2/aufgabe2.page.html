@@ -23,6 +23,8 @@
     {{ wrongQRCode }}
   </div>
 
+  <ion-label *ngIf="wrongQRCode">{{ wrongQRCode }}</ion-label>
+
   <ion-button expand="block" (click)="goToExercise3()">
     Aufgabe 3
   </ion-button>

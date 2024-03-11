@@ -1,18 +1,17 @@
-ion-title {
-  color: #387ef5;
-  text-align: center;
-}
-.task-title{
-  font-size: x-large ;
-}
-.task{
-  margin-top: 50px;
+.icon-container{
+  font-size: 7em;
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  flex-wrap: wrap;
 }
 
-.success{
-  color: green;
+.task-title{
+  width: 100%;
+  text-align: center;
 }
-.large-icon{
-  font-size: 15rem;
+
+.wlan-button{
   display: flex;
-justify-content: center}
+  justify-content: center;
+}

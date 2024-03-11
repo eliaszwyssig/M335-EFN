@@ -5,18 +5,15 @@
 </ion-header>
 
 <ion-content>
-  <ion-label>
-  <ion-text class="task-title">WLAN verbinden und trennen</ion-text>
-  </ion-label>
-  <br>
-  <ion-label>
-    <ion-text *ngIf="!isConnectedToWifi">WLAN verbunden</ion-text>
-    <ion-text *ngIf="isConnectedToWifi" class="success">WLAN verbunden</ion-text>
-  </ion-label>
-<br>
-  <ion-label>
-    <ion-text *ngIf="!isDisconnectedToWifi">WLAN trennen</ion-text>
-    <ion-text *ngIf="isDisconnectedToWifi" class="success">WLAN trennen</ion-text>
-  </ion-label>
 
+  <br>
+  <div class="icon-container">
+    <h4 class="task-title">WIFI connection hier: </h4>
+
+    <ion-icon *ngIf="isConnectedToWifi" name="wifi-sharp"/>
+  </div>
+  <h4 class="task-title" *ngIf="!isConnectedToWifi"> Verbinde dein Handy mit dem WLAN </h4>
+
+  <ion-button class="wlan-button" *ngIf="isConnectedToWifi"> Beenden und Resultate anschauen</ion-button>
+<br>
 </ion-content>

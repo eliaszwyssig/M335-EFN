@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import {addIcons} from "ionicons";
-import { wifiSharp} from "ionicons/icons";
 import { Network,  } from '@capacitor/network';
-import {ToastController} from "@ionic/angular/standalone";
 import {ResultServiceService} from "../result-service.service";
+import {wifiSharp} from "ionicons/icons";
+
 
 @Component({
   selector: 'app-aufgabe6',

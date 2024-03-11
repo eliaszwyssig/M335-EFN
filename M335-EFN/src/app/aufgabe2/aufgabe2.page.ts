@@ -1,9 +1,9 @@
-import { Component, NgZone, OnInit } from '@angular/core';
-import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import { Component, OnInit } from '@angular/core';
+import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {IonicModule} from '@ionic/angular';
 
 @Component({
   selector: 'app-aufgabe2',
@@ -13,51 +13,51 @@ import { FormsModule } from '@angular/forms';
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class Aufgabe2Page implements OnInit {
-  wrongQRCode: string = '';
+  isSupported = false;
   isDone: boolean = false;
+  wrongQRCode: string = '';
 
-  constructor(private router: Router, private zone: NgZone) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
-    BarcodeScanner.prepare();
+    BarcodeScanner.isSupported().then((result) => {
+      this.isSupported = result.supported;
+    });
   }
 
   async scanQRCode() {
-    const allowed = await this.checkPermission();
-    if (allowed) {
-      const result = await BarcodeScanner.startScan(); // start scanning and wait for a result
-      if (result.hasContent) {
-        this.zone.run(() => {
-          if (result.content === 'M335-EFN') { // if the result matches your QR content
-            this.isDone = true;
-            this.wrongQRCode = '';
-          } else {
-            this.isDone = false;
-            this.wrongQRCode = 'Falscher QR-Code!';
-          }
-        });
+    if (!this.isSupported) {
+      this.wrongQRCode = 'Barcode-Scanning wird auf diesem Gerät nicht unterstützt.';
+      return;
+    }
+
+    try {
+      const result = await BarcodeScanner.scan();
+      if (result.barcodes.length > 0) {
+        const scannedCode = result.barcodes[0];
+        if (scannedCode.rawValue === 'M335-EFN') {
+          this.isDone = true;
+          this.wrongQRCode = '';
+        } else {
+          this.isDone = false;
+          this.wrongQRCode = 'Falscher QR-Code!';
+        }
+      } else {
+        this.isDone = false;
+        this.wrongQRCode = 'Kein QR-Code gescannt.';
       }
-    } else {
-      this.wrongQRCode = 'Keine Kameraberechtigung!';
+    } catch (error: unknown) {
+      let errorMessage = 'Unbekannter Fehler';
+      if (typeof error === "object" && error !== null && "message" in error) {
+        errorMessage = (error as { message: string }).message;
+      }
+      this.wrongQRCode = `Fehler beim Scannen: ${errorMessage}`;
     }
   }
 
-  private async checkPermission(): Promise<boolean> {
-    // Check or request permission
-    const status = await BarcodeScanner.checkPermission({ force: true });
-    if (status.granted) {
-      return true;
+  goToExercise3() {
+    if (this.isDone) {
+      this.router.navigateByUrl('/aufgabe3');
     }
-
-    await BarcodeScanner.openAppSettings();
-    return false;
-  }
-
-  async goToExercise3() {
-    this.router.navigateByUrl('/aufgabe3');
-  }
-
-  ngOnDestroy() {
-    BarcodeScanner.stopScan(); // Make sure to stop scanning if the view is left
   }
 }
