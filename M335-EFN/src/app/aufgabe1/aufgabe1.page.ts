@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Geolocation } from '@capacitor/geolocation';
+import { Geolocation, Position } from '@capacitor/geolocation';
 import { Router } from '@angular/router';
 import { IonicModule } from "@ionic/angular";
 import { DecimalPipe, NgIf } from "@angular/common";
@@ -15,33 +15,50 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
   distance: number | null = null;
   location = { lat: 0, lng: 0 };
   targetLocation = { lat: 47.071586, lng: 8.348635 };
-  positionUpdateInterval: any; // Handle for the interval
+  watchId: string | null = null;
 
   constructor(private router: Router) {}
 
   ngOnInit() {
-    this.positionUpdateInterval = setInterval(() => {
-      this.getCurrentPosition();
-    }, 2000); // Update every 2 seconds
+    this.startWatchingPosition();
   }
 
   ngOnDestroy() {
-    if (this.positionUpdateInterval) {
-      clearInterval(this.positionUpdateInterval);
+    this.stopWatchingPosition();
+  }
+
+  async startWatchingPosition() {
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 10000
+    };
+
+    this.watchId = (await Geolocation.watchPosition(options, (position, err) => {
+      if (position) {
+        this.updateLocation(position);
+        this.updateDistance();
+      } else if (err) {
+        console.error('Error watching position:', err);
+      }
+    })).toString();
+  }
+
+  async updateCurrentPosition() {
+    const coordinates = await Geolocation.getCurrentPosition();
+    this.updateLocation(coordinates);
+  }
+
+  stopWatchingPosition() {
+    if (this.watchId) {
+      Geolocation.clearWatch({ id: this.watchId });
+      this.watchId = null;
     }
   }
 
-  async getCurrentPosition() {
-    try {
-      const coordinates = await Geolocation.getCurrentPosition();
-      this.location = {
-        lat: coordinates.coords.latitude,
-        lng: coordinates.coords.longitude
-      };
-      this.updateDistance();
-    } catch (e) {
-      console.error('Error getting location', e);
-    }
+  updateLocation(position: Position) {
+    this.location.lat = position.coords.latitude;
+    this.location.lng = position.coords.longitude;
+    this.updateDistance();
   }
 
   updateDistance() {
@@ -52,8 +69,8 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
   }
 
   targetReached() {
-    clearInterval(this.positionUpdateInterval); // Stop updating when the target is reached
-    this.router.navigateByUrl('/nächsteSeite'); // Navigate to the next page
+    this.stopWatchingPosition();
+    this.router.navigateByUrl('/nächsteSeite');
   }
 
   haversineDistance(source: { lat: number, lng: number }, target: { lat: number, lng: number }): number {
@@ -65,10 +82,8 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
       Math.cos(toRad(source.lat)) * Math.cos(toRad(target.lat)) *
       Math.sin(dLng / 2) * Math.sin(dLng / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c;
-    return distance;
+    return R * c; // Distanz in Metern
   }
-
 
   async goToExercise2() {
     this.router.navigateByUrl("/aufgabe2");
