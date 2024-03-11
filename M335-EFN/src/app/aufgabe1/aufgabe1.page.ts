@@ -2,14 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { Router } from '@angular/router';
 import {IonicModule} from "@ionic/angular";
-import {DecimalPipe} from "@angular/common";
+import {DecimalPipe, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-aufgabe1',
   templateUrl: './aufgabe1.page.html',
   styleUrls: ['./aufgabe1.page.scss'],
   standalone:true,
-  imports: [IonicModule, DecimalPipe]
+  imports: [IonicModule, DecimalPipe, NgIf]
 })
 export class Aufgabe1Page implements OnInit, OnDestroy {
   distance: number | null = null;

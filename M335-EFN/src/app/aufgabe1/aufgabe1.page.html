@@ -21,11 +21,11 @@
     <h4>{{ distance | number: '1.2-2' }} Meter</h4>
   </ion-item>
 
-  <div *ngIf="distance < 3">
-    <ion-label>Ziel erreicht!</ion-label>
+  <div *ngIf="distance !== null && distance < 3">
+    Ziel Erreicht
   </div>
 
-  <ion-button *ngIf="distance < 3" expand="block" (click)="goToExercise2()">
+  <ion-button *ngIf="distance !== null && distance < 3" expand="block" (click)="goToExercise2()">
     Aufgabe 2
   </ion-button>
 </ion-content>
