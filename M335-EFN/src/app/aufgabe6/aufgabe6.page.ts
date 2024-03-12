@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -7,6 +7,7 @@ import { Network,  } from '@capacitor/network';
 import {ResultServiceService} from "../result-service.service";
 import {wifiSharp} from "ionicons/icons";
 import {Router} from "@angular/router";
+import {CancelComponent} from "../cancel/cancel.component";
 
 
 
@@ -15,7 +16,7 @@ import {Router} from "@angular/router";
   templateUrl: './aufgabe6.page.html',
   styleUrls: ['./aufgabe6.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, CancelComponent]
 })
 export class Aufgabe6Page implements OnInit{
   isConnectedToWifi = false;

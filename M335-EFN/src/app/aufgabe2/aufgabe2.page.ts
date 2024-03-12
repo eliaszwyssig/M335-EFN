@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { Router } from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {ResultServiceService} from "../result-service.service";
+import {CancelComponent} from "../cancel/cancel.component";
 
 @Component({
   selector: 'app-aufgabe2',
   templateUrl: './aufgabe2.page.html',
   styleUrls: ['./aufgabe2.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, CancelComponent]
 })
 export class Aufgabe2Page implements OnInit {
   isSupported = false;

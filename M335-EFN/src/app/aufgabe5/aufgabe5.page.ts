@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import {Router} from "@angular/router";
 import {ResultServiceService} from "../result-service.service";
+import {CancelComponent} from "../cancel/cancel.component";
 
 @Component({
   selector: 'app-aufgabe5',
   templateUrl: './aufgabe5.page.html',
   styleUrls: ['./aufgabe5.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, CancelComponent]
 })
 export class Aufgabe5Page implements OnInit{
   timer: any;

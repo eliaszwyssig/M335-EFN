@@ -10,14 +10,13 @@ potatoCounter: number = 0;
 overallTime: number = 0;
 timeString: string = '';
 tasks: number = 0;
-name: string = '';
+name: any ;
   constructor() { }
 
   getResult(timeTaken: number): void {
     if(timeTaken <= 30)
     {
       this.schnitzelCounter++;
-      console.log(this.schnitzelCounter);
     }
     else  {
       this.schnitzelCounter++;

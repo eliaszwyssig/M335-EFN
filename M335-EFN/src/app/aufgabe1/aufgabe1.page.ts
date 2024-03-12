@@ -1,16 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { Router } from '@angular/router';
 import { IonicModule } from "@ionic/angular";
 import { DecimalPipe, NgIf } from "@angular/common";
 import {ResultServiceService} from "../result-service.service";
+import {CancelComponent} from "../cancel/cancel.component";
+
 
 @Component({
   selector: 'app-aufgabe1',
   templateUrl: './aufgabe1.page.html',
   styleUrls: ['./aufgabe1.page.scss'],
   standalone: true,
-  imports: [IonicModule, DecimalPipe, NgIf]
+  imports: [IonicModule, DecimalPipe, NgIf, CancelComponent]
 })
 export class Aufgabe1Page implements OnInit, OnDestroy {
   distance: number | null = null;

@@ -1,17 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ResultServiceService } from '../result-service.service';
+import {CancelComponent} from "../cancel/cancel.component";
+
 
 @Component({
   selector: 'app-aufgabe3',
   templateUrl: './aufgabe3.page.html',
   styleUrls: ['./aufgabe3.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, DecimalPipe]
+  imports: [IonicModule, CommonModule, FormsModule, DecimalPipe, CancelComponent]
 })
 export class Aufgabe3Page implements OnInit, OnDestroy {
   location: { lat: number; lng: number } = { lat: 0, lng: 0 };
