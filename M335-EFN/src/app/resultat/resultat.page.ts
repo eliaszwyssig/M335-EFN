@@ -23,9 +23,16 @@ export class ResultatPage implements OnInit {
   potato: number = 0;
 
   ngOnInit() {
-    this.name = this.resultService.name
+    this.name = this.resultService.name;
     this.time = this.resultService.timeString;
-    this.schnitzel = this.resultService.schnitzelCounter
+
+    if(this.resultService.schnitzelCounter > 6){
+      this.schnitzel = 6
+    }
+    else{
+      this.schnitzel = this.resultService.schnitzelCounter
+    }
+
     this.potato = this.resultService.potatoCounter
   }
 
