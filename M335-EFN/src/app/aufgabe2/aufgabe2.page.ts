@@ -50,11 +50,7 @@ export class Aufgabe2Page implements OnInit {
         if (scannedCode.rawValue === 'M335-EFN') {
           this.isDone = true;
           this.wrongQRCode = '';
-
-
-
             this.isSuccessfull();
-
         } else {
           this.isDone = false;
           this.wrongQRCode = 'Falscher QR-Code!';
@@ -101,5 +97,4 @@ export class Aufgabe2Page implements OnInit {
   ionViewWillLeave() {
     this.backSubscription?.unsubscribe();
   }
-
 }

@@ -19,16 +19,11 @@ export class CancelComponent  {
 
   constructor(private router: Router, private resultService: ResultServiceService) {
     addIcons({ closeCircleOutline,});
-
     }
-
-
-
   goBackToStart(): void {
     this.router.navigateByUrl("/");
     this.resetVariables();
   }
-
 
   resetVariables(): void {
   this.resultService.potatoCounter = 0;

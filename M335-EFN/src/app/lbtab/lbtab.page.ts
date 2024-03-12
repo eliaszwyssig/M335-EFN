@@ -24,16 +24,11 @@ import {Leaderboard} from "./leaderboard";
   standalone: true,
   imports: [IonHeader, IonToolbar, IonTitle, IonContent, NgFor, IonList, IonLabel, IonItem, IonImg, IonButton]
 })
-export class lbtabPage implements OnInit{
+export class lbtabPage{
   leaderboards: Array<Leaderboard> = [];
 
-
   constructor(private storage: Storage) {
-
-
-  }
-  async ngOnInit(){
-await this.loadLeaderboards();
+    this.loadLeaderboards();
   }
   async loadLeaderboards() {
     await this.storage.create();

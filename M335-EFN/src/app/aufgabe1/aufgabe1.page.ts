@@ -8,7 +8,6 @@ import {ResultServiceService} from "../result-service.service";
 import {CancelComponent} from "../cancel/cancel.component";
 import {Subscription} from "rxjs";
 
-
 @Component({
   selector: 'app-aufgabe1',
   templateUrl: './aufgabe1.page.html',

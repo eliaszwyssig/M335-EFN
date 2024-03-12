@@ -7,7 +7,6 @@ import {IonRouterOutlet} from "@ionic/angular/standalone";
 import { Router } from '@angular/router';
 import { ResultServiceService } from '../result-service.service';
 import {CancelComponent} from "../cancel/cancel.component";
-
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -108,7 +107,6 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
     this.stopWatchingPosition();
 
       this.isSuccessfull();
-
 
     this.router.navigateByUrl('/nächsteSeite');
   }

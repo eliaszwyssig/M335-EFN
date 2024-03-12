@@ -29,7 +29,7 @@ export class Aufgabe6Page implements OnInit {
     private router: Router,
     private resultService: ResultServiceService,
     private platform: Platform,
-    private routerOutlet: IonRouterOutlet // Ergänzt für Back Button Subscription
+    private routerOutlet: IonRouterOutlet
   ) {
     addIcons({ wifiSharp });
   }
@@ -44,7 +44,6 @@ export class Aufgabe6Page implements OnInit {
   ionViewDidEnter() {
     this.backSubscription = this.platform.backButton.subscribeWithPriority(10, () => {
       if (!this.routerOutlet.canGoBack()) {
-        // Optional: Alert oder andere Aktion zur Bestätigung
       }
     });
   }
@@ -83,6 +82,4 @@ export class Aufgabe6Page implements OnInit {
   async goToResults() {
     this.router.navigateByUrl("/resultat");
   }
-
-
 }
