@@ -46,7 +46,6 @@ export class PermissionsPage {
   startHunt() {
     if(this.cameraPermissionGranted && this.locationPermissionGranted) {
       this.router.navigateByUrl('/aufgabe1');
-    } else {
     }
   }
 }

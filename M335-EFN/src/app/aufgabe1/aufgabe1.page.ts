@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { Router } from '@angular/router';
-import {IonicModule, Platform} from "@ionic/angular";
+import {IonicModule, IonRouterOutlet, Platform} from "@ionic/angular";
 import { DecimalPipe, NgIf } from "@angular/common";
 import {ResultServiceService} from "../result-service.service";
 import {CancelComponent} from "../cancel/cancel.component";
+import {Subscription} from "rxjs";
 
 
 @Component({
