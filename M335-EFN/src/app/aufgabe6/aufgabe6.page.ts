@@ -24,6 +24,7 @@ export class Aufgabe6Page implements OnInit {
   isDisconnectedToWifi: boolean = false;
   timer: any;
   sec: number = 0;
+  isSuccessfullCalled: boolean = false;
 
   constructor(
     private router: Router,
@@ -57,7 +58,8 @@ export class Aufgabe6Page implements OnInit {
     const status = await Network.getStatus();
     this.isConnectedToWifi = status.connected && status.connectionType === 'wifi';
     this.isDisconnectedToWifi = !this.isConnectedToWifi;
-    if (this.isConnectedToWifi && this.isDisconnectedToWifi) {
+    if (this.isConnectedToWifi && this.isDisconnectedToWifi && !this.isSuccessfullCalled) {
+      this.isSuccessfullCalled = true;
       this.isSuccessfull();
     }
   }

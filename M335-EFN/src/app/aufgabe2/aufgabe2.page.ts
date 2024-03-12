@@ -23,7 +23,7 @@ export class Aufgabe2Page implements OnInit {
   timer: any;
   sec: number =  0;
   private backSubscription: Subscription | undefined;
-
+  isSuccessfullCalled: boolean = false;
   constructor(
     private router: Router,
     private resultService: ResultServiceService,
@@ -51,7 +51,11 @@ export class Aufgabe2Page implements OnInit {
         if (scannedCode.rawValue === 'M335-EFN') {
           this.isDone = true;
           this.wrongQRCode = '';
-          this.isSuccessfull();
+          if (!this.isSuccessfullCalled)
+          {
+            this.isSuccessfullCalled = true;
+            this.isSuccessfull();
+          }
         } else {
           this.isDone = false;
           this.wrongQRCode = 'Falscher QR-Code!';

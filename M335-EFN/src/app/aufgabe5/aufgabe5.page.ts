@@ -21,6 +21,7 @@ export class Aufgabe5Page implements OnInit {
   turnedLeft: boolean = false;
   sec: number = 0;
   private backSubscription: Subscription | undefined;
+  isSuccessfullCalled: boolean = false;
 
   constructor(
     private router: Router,
@@ -60,7 +61,11 @@ export class Aufgabe5Page implements OnInit {
     } else if (orientation === 'landscape-primary') {
       this.turnedLeft = true;
     }
-    this.isSuccessfull()
+    if(!this.isSuccessfullCalled){
+      this.isSuccessfullCalled = true;
+      this.isSuccessfull();
+    }
+
   }
 
   startTimer(): void {
