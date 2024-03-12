@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import {ResultServiceService} from "../result-service.service";
 import { Router} from "@angular/router";
 import {lbtabPage} from "../lbtab/lbtab.page";
+import {ApiService} from "../api.service";
 
 @Component({
   selector: 'app-resultat',
@@ -14,7 +15,7 @@ import {lbtabPage} from "../lbtab/lbtab.page";
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class ResultatPage implements OnInit {
-  constructor(private resultService: ResultServiceService, private router: Router, private leaderboardEntry: lbtabPage) { }
+  constructor(private resultService: ResultServiceService, private router: Router, private leaderboardEntry: lbtabPage, private apiService: ApiService) { }
 
   name: string = '';
   time: string = '';
@@ -31,6 +32,7 @@ export class ResultatPage implements OnInit {
   goToStartPage(): void {
     this.router.navigateByUrl("/");
     this.leaderboardEntry.addLeaderboardEntry(this.name, this.time,this.schnitzel,this.potato);
+    this.apiService.postData(this.name,this.schnitzel,this.potato, this.time)
   }
 
 }
