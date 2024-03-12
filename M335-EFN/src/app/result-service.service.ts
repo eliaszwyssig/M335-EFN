@@ -8,6 +8,8 @@ export class ResultServiceService {
 schnitzelCounter: number = 0;
 potatoCounter: number = 0;
 overallTime: number = 0;
+timeString: string = '';
+tasks: number = 0;
 name: string = '';
   constructor() { }
 
@@ -20,13 +22,23 @@ name: string = '';
     else  {
       this.schnitzelCounter++;
       this.potatoCounter++;
-      console.log('potato');
     }
+    this.tasks++;
     this.setOverallTime(timeTaken);
   }
 
   setOverallTime(timeTaken: number): void{
     this.overallTime += timeTaken;
-    console.log(this.overallTime);
+    if(this.tasks === 6)
+    {
+      this.convertTimeToString(this.overallTime);
+    }
+  }
+  convertTimeToString(totalSeconds: number): void {
+    const minutes: number = Math.floor(totalSeconds / 60);
+    const seconds: number = totalSeconds % 60;
+    const minutesString: string = String(minutes).padStart(2, '0');
+    const secondsString: string = String(seconds).padStart(2, '0');
+    this.timeString = `${minutesString}:${secondsString}`;
   }
 }
