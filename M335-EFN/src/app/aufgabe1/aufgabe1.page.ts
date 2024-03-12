@@ -19,6 +19,7 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
   watchId: string | null = null;
   timer: any;
   distanceMarkers: string = '';
+  initialDistanceSet: boolean = false;
 
   constructor(private router: Router, private resultService: ResultServiceService) {
     this.startTimer();
@@ -46,6 +47,13 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
 
     this.watchId = (await Geolocation.watchPosition(options, (position, err) => {
       if (position) {
+        if (this.initialDistanceSet === false) {
+          this.initialDistanceSet = true;
+          this.targetLocation.initialDistance = this.haversineDistance(
+            { lat: position.coords.latitude, lng: position.coords.longitude },
+            this.targetLocation
+          );
+        }
         this.updateLocation(position);
         this.updateDistance();
       } else if (err) {
@@ -69,7 +77,8 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
 
   updateDistance() {
     this.distance = this.haversineDistance(this.location, this.targetLocation);
-    if (this.distance !== null && this.distance <= 3) {
+    if (this.distance !== null && this.distance <= 5) {
+      // Wenn Distanz kleiner oder gleich 5 Meter ist
       this.targetReached();
     } else {
       this.updateDistanceMarkers();
@@ -77,16 +86,14 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
   }
 
   updateDistanceMarkers() {
-    const totalMarkers = 10;
-    let progress = 0;
-
-    if (this.distance !== null) {
-      progress = Math.min(this.distance / (this.targetLocation.initialDistance - 3), 1);
+    if (this.targetLocation.initialDistance && this.distance !== null) {
+      const totalMarkers = 10;
+      const fractionOfDistance = (this.targetLocation.initialDistance - this.distance) / this.targetLocation.initialDistance;
+      const markersReached = Math.round(fractionOfDistance * totalMarkers);
+      this.distanceMarkers = Array.from({ length: totalMarkers }, (_, index) =>
+        index < markersReached ? '📍' : '—'
+      ).join('');
     }
-
-    // Aktualisiere das Icon entsprechend des Fortschritts
-    const markersReached = Math.round(progress * totalMarkers);
-    this.distanceMarkers = '—'.repeat(markersReached) + '📍' + '—'.repeat(totalMarkers - markersReached - 1);
   }
 
   targetReached() {

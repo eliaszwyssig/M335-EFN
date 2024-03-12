@@ -36,8 +36,8 @@ export class sjtabPage {
   toggleNameInput(show: boolean) {
     this.showNameInput = show;
     if (!show) {
-      this.playerName = ''; // Setzt den Namen zurück, wenn der Benutzer abbricht
-      this.showError = false; // Versteckt die Fehlermeldung, falls vorhanden
+      this.playerName = '';
+      this.showError = false;
     }
   }
 
