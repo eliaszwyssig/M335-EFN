@@ -15,13 +15,15 @@ import {ResultServiceService} from "../result-service.service";
 export class Aufgabe1Page implements OnInit, OnDestroy {
   distance: number | null = null;
   location = { lat: 0, lng: 0 };
-  targetLocation = { lat: 47.071586, lng: 8.348635 };
+  targetLocation = { lat: 47.071586, lng: 8.348635, initialDistance: 0 };
   watchId: string | null = null;
   timer: any;
+  distanceMarkers: string = '';
+  initialDistanceSet: boolean = false;
   sec: number = 0;
 
   constructor(private router: Router, private resultService: ResultServiceService) {
-
+    this.startTimer();
   }
 
   ngOnInit() {
@@ -34,6 +36,10 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
   }
 
   async startWatchingPosition() {
+    if (!this.targetLocation.initialDistance) {
+      this.targetLocation.initialDistance = this.haversineDistance(this.location, this.targetLocation);
+    }
+
     const options = {
       enableHighAccuracy: true,
       timeout: 10000
@@ -41,6 +47,13 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
 
     this.watchId = (await Geolocation.watchPosition(options, (position, err) => {
       if (position) {
+        if (this.initialDistanceSet === false) {
+          this.initialDistanceSet = true;
+          this.targetLocation.initialDistance = this.haversineDistance(
+            { lat: position.coords.latitude, lng: position.coords.longitude },
+            this.targetLocation
+          );
+        }
         this.updateLocation(position);
         this.updateDistance();
       } else if (err) {
@@ -69,9 +82,24 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
 
   updateDistance() {
     this.distance = this.haversineDistance(this.location, this.targetLocation);
-    if (this.distance !== null && this.distance < 3) {
+    if (this.distance !== null && this.distance <= 5) {
+      // Wenn Distanz kleiner oder gleich 5 Meter ist
       this.targetReached();
+    } else {
+      this.updateDistanceMarkers();
     }
+  }
+
+  updateDistanceMarkers() {
+    const totalMarkers = 10;
+    let markersReached = 0;
+
+    if (this.distance !== null) {
+      const distanceCovered = this.targetLocation.initialDistance - this.distance;
+      const progress = distanceCovered / (this.targetLocation.initialDistance - 3);
+      markersReached = Math.min(totalMarkers, Math.floor(progress * totalMarkers));
+    }
+    this.distanceMarkers = '—'.repeat(markersReached) + (markersReached < totalMarkers ? '📍' : '') + '—'.repeat(totalMarkers - markersReached - (markersReached < totalMarkers ? 1 : 0));
   }
 
   targetReached() {
@@ -93,14 +121,14 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
   }
   haversineDistance(source: { lat: number, lng: number }, target: { lat: number, lng: number }): number {
     const toRad = (value: number) => (value * Math.PI) / 180;
-    const R = 6371e3; // Erdradius in Metern
+    const R = 6371e3;
     const dLat = toRad(target.lat - source.lat);
     const dLng = toRad(target.lng - source.lng);
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(toRad(source.lat)) * Math.cos(toRad(target.lat)) *
       Math.sin(dLng / 2) * Math.sin(dLng / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c; // Distanz in Metern
+    return R * c;
   }
 
   async goToExercise2() {

@@ -11,10 +11,8 @@
     </ion-toolbar>
   </ion-header>
 
-  <!-- Anzeige der zurückgelegten Distanz -->
   <div>Distanz: {{ currentDistance | number:'1.0-2' }} Meter</div>
 
-  <!-- Button, um zur nächsten Aufgabe zu navigieren, wird eingeblendet, sobald das Ziel erreicht ist -->
   <ion-button *ngIf="currentDistance >= targetDistance" (click)="goToExercise4()">
     Weiter zur Aufgabe 4
   </ion-button>
