@@ -56,3 +56,17 @@ ion-button {
   margin-top: 8px;
   font-size: 0.8rem;
 }
+
+.distance-box {
+  padding: 10px;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.distance-indicator {
+  font-family: monospace;
+  text-align: center;
+  font-size: large;
+}

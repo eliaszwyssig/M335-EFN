@@ -86,14 +86,15 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
   }
 
   updateDistanceMarkers() {
-    if (this.targetLocation.initialDistance && this.distance !== null) {
-      const totalMarkers = 10;
-      const fractionOfDistance = (this.targetLocation.initialDistance - this.distance) / this.targetLocation.initialDistance;
-      const markersReached = Math.round(fractionOfDistance * totalMarkers);
-      this.distanceMarkers = Array.from({ length: totalMarkers }, (_, index) =>
-        index < markersReached ? '📍' : '—'
-      ).join('');
+    const totalMarkers = 10;
+    let markersReached = 0;
+
+    if (this.distance !== null) {
+      const distanceCovered = this.targetLocation.initialDistance - this.distance;
+      const progress = distanceCovered / (this.targetLocation.initialDistance - 3);
+      markersReached = Math.min(totalMarkers, Math.floor(progress * totalMarkers));
     }
+    this.distanceMarkers = '—'.repeat(markersReached) + (markersReached < totalMarkers ? '📍' : '') + '—'.repeat(totalMarkers - markersReached - (markersReached < totalMarkers ? 1 : 0));
   }
 
   targetReached() {
