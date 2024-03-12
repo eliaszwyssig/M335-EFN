@@ -57,42 +57,27 @@ ion-button {
   font-size: 0.8rem;
 }
 
-.distance-box {
-  padding: 10px;
-  margin-top: 20px;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-
 .distance-indicator {
   flex-grow: 1;
-  text-align: center;
   display: flex;
   justify-content: space-between;
-  padding: 0 10px;
+  margin: 0 20px;
 }
+
 .distance-display-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   position: absolute;
   top: 50%;
   left: 0;
   right: 0;
   transform: translateY(-50%);
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  justify-content: center;
+  align-items: center;
 }
 
 .distance-display {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-}
-
-.start-text,
-.end-text {
-  flex-basis: 50px;
-  text-align: center;
+  justify-content: center;
+  width: 100%;
 }
