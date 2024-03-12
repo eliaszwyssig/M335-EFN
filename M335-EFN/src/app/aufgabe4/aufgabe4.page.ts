@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Device } from "@capacitor/device";
-import { IonicModule, Platform, IonRouterOutlet } from "@ionic/angular";
+import { IonicModule, Platform} from "@ionic/angular";
 import { NgIf } from "@angular/common";
 import { batteryDead, batteryCharging } from "ionicons/icons";
 import { addIcons } from "ionicons";
+import {IonRouterOutlet} from "@ionic/angular/standalone";
 import { ResultServiceService } from "../result-service.service";
 import {CancelComponent} from "../cancel/cancel.component";
 import { Subscription } from 'rxjs';
@@ -14,7 +15,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './aufgabe4.page.html',
   styleUrls: ['./aufgabe4.page.scss'],
   standalone: true,
-  imports: [IonicModule, NgIf, CancelComponent]
+  imports: [IonicModule, NgIf, CancelComponent, IonRouterOutlet]
 })
 export class Aufgabe4Page implements OnInit, OnDestroy {
   isCharging: boolean = false;

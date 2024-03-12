@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule , Platform, IonRouterOutlet} from '@ionic/angular';
+import { IonicModule , Platform} from '@ionic/angular';
+import {IonRouterOutlet} from "@ionic/angular/standalone";
 import {addIcons} from "ionicons";
 import { Network  } from '@capacitor/network';
 import {ResultServiceService} from "../result-service.service";
@@ -15,7 +16,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './aufgabe6.page.html',
   styleUrls: ['./aufgabe6.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, CancelComponent]
+  imports: [IonicModule, CommonModule, FormsModule, CancelComponent, IonRouterOutlet]
 })
 export class Aufgabe6Page implements OnInit {
   private backSubscription: Subscription | undefined;
