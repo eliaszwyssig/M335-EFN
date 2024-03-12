@@ -1,7 +1,7 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { Router } from '@angular/router';
-import { IonicModule } from "@ionic/angular";
+import {IonicModule, Platform} from "@ionic/angular";
 import { DecimalPipe, NgIf } from "@angular/common";
 import {ResultServiceService} from "../result-service.service";
 import {CancelComponent} from "../cancel/cancel.component";
@@ -15,6 +15,7 @@ import {CancelComponent} from "../cancel/cancel.component";
   imports: [IonicModule, DecimalPipe, NgIf, CancelComponent]
 })
 export class Aufgabe1Page implements OnInit, OnDestroy {
+  private backSubscription: Subscription | undefined;
   distance: number | null = null;
   location = { lat: 0, lng: 0 };
   targetLocation = { lat: 47.071586, lng: 8.348635, initialDistance: 0 };
@@ -24,7 +25,7 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
   initialDistanceSet: boolean = false;
   sec: number = 0;
 
-  constructor(private router: Router, private resultService: ResultServiceService) {
+  constructor(private platform: Platform, private routerOutlet: IonRouterOutlet, private router: Router, private resultService: ResultServiceService) {
     this.startTimer();
   }
 
@@ -35,6 +36,20 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.stopWatchingPosition();
+  }
+
+  ionViewDidEnter() {
+    this.backSubscription = this.platform.backButton.subscribeWithPriority(
+      10,
+      () => {
+        if (!this.routerOutlet.canGoBack()) {
+        }
+      },
+    );
+  }
+
+  ionViewWillLeave() {
+    this.backSubscription?.unsubscribe();
   }
 
   async startWatchingPosition() {

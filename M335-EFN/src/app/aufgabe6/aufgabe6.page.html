@@ -8,9 +8,12 @@
 
   <br>
   <div class="icon-container">
-    <h4 class="task-title">WIFI connection hier: </h4>
+    <h4 class="task-title">WIFI connection: </h4>
+    <div *ngIf="isConnectedToWifi">
+      <ion-icon name="wifi-sharp"/>
+      <h5>Connected</h5>
 
-    <ion-icon *ngIf="isConnectedToWifi" name="wifi-sharp"/>
+    </div>
   </div>
   <h4 class="task-title" *ngIf="!isConnectedToWifi"> Verbinde dein Handy mit dem WLAN </h4>
 

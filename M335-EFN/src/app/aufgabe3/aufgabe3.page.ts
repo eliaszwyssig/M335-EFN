@@ -1,12 +1,13 @@
-import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, IonRouterOutlet, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ResultServiceService } from '../result-service.service';
 import {CancelComponent} from "../cancel/cancel.component";
 
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-aufgabe3',
@@ -16,6 +17,7 @@ import {CancelComponent} from "../cancel/cancel.component";
   imports: [IonicModule, CommonModule, FormsModule, DecimalPipe, CancelComponent]
 })
 export class Aufgabe3Page implements OnInit, OnDestroy {
+  remainingDistance: number | null = null;
   location: { lat: number; lng: number } = { lat: 0, lng: 0 };
   currentDistance = 0;
   targetDistance = 10;
@@ -23,10 +25,13 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
   watchId: string | null = null;
   timer: any;
   sec: number = 0;
+  private backSubscription: Subscription | undefined;
 
   constructor(
     private router: Router,
-    private resultService: ResultServiceService
+    private resultService: ResultServiceService,
+    private platform: Platform,
+    private routerOutlet: IonRouterOutlet
   ) {}
 
   ngOnInit() {
@@ -36,6 +41,23 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.stopWatchingPosition();
+    this.stopTimer();
+    this.backSubscription?.unsubscribe();
+  }
+
+  ionViewDidEnter() {
+    this.backSubscription = this.platform.backButton.subscribeWithPriority(
+      10,
+      () => {
+        if (!this.routerOutlet.canGoBack()) {
+          // Prevent back button action if desired
+        }
+      },
+    );
+  }
+
+  ionViewWillLeave() {
+    this.backSubscription?.unsubscribe();
   }
 
   async startWatchingPosition() {
@@ -60,12 +82,14 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
     if (!this.startPosition) {
       this.startPosition = position;
     } else {
-      this.currentDistance = this.calculateDistance(this.startPosition, position);
-      if (this.currentDistance >= this.targetDistance) {
+      const distanceCovered = this.calculateDistance(this.startPosition, position);
+      this.remainingDistance = Math.max(0, this.targetDistance - distanceCovered);
+      if (distanceCovered >= this.targetDistance) {
         this.targetReached();
       }
     }
   }
+
 
   calculateDistance(start: Position, end: Position): number {
     const toRad = (value: number) => (value * Math.PI) / 180;
@@ -92,7 +116,7 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
   }
 
   goToExercise4() {
-    if (this.currentDistance >= this.targetDistance) {
+    if (this.remainingDistance === 0) {
       this.router.navigateByUrl('/aufgabe4');
     }
   }
