@@ -26,7 +26,6 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
   watchId: string | null = null;
   timer: any;
   sec: number = 0;
-  isSuccessfullCalled: boolean = false;
   private backSubscription: Subscription | undefined;
 
   constructor(
@@ -107,10 +106,9 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
 
   targetReached() {
     this.stopWatchingPosition();
-    if(!this.isSuccessfullCalled){
-this.isSuccessfullCalled = true;
+
       this.isSuccessfull();
-    }
+
 
     this.router.navigateByUrl('/nächsteSeite');
   }
