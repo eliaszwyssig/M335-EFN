@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, IonRouterOutlet, Platform } from '@ionic/angular';
+import { IonicModule,  Platform } from '@ionic/angular';
+import {IonRouterOutlet} from "@ionic/angular/standalone";
 import { Router } from '@angular/router';
 import { ResultServiceService } from '../result-service.service';
 import {CancelComponent} from "../cancel/cancel.component";
@@ -14,7 +15,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './aufgabe3.page.html',
   styleUrls: ['./aufgabe3.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, DecimalPipe, CancelComponent]
+  imports: [IonicModule, CommonModule, FormsModule, DecimalPipe, CancelComponent, IonRouterOutlet]
 })
 export class Aufgabe3Page implements OnInit, OnDestroy {
   remainingDistance: number | null = null;

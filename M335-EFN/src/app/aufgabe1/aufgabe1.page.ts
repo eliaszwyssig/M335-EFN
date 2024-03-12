@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { Router } from '@angular/router';
-import {IonicModule, IonRouterOutlet, Platform} from "@ionic/angular";
+import {IonicModule,  Platform} from "@ionic/angular";
+import {IonRouterOutlet} from "@ionic/angular/standalone";
 import { DecimalPipe, NgIf } from "@angular/common";
 import {ResultServiceService} from "../result-service.service";
 import {CancelComponent} from "../cancel/cancel.component";
@@ -13,7 +14,7 @@ import {Subscription} from "rxjs";
   templateUrl: './aufgabe1.page.html',
   styleUrls: ['./aufgabe1.page.scss'],
   standalone: true,
-  imports: [IonicModule, DecimalPipe, NgIf, CancelComponent]
+  imports: [IonicModule, DecimalPipe, NgIf, CancelComponent, IonRouterOutlet]
 })
 export class Aufgabe1Page implements OnInit, OnDestroy {
   private backSubscription: Subscription | undefined;

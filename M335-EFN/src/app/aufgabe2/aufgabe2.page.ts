@@ -3,7 +3,8 @@ import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { Router } from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {IonicModule, Platform, IonRouterOutlet} from '@ionic/angular';
+import {IonicModule, Platform} from '@ionic/angular';
+import {IonRouterOutlet} from "@ionic/angular/standalone";
 import {ResultServiceService} from "../result-service.service";
 import {CancelComponent} from "../cancel/cancel.component";
 import { Subscription } from 'rxjs';
@@ -13,7 +14,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './aufgabe2.page.html',
   styleUrls: ['./aufgabe2.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, CancelComponent]
+  imports: [IonicModule, CommonModule, FormsModule, CancelComponent, IonRouterOutlet]
 })
 export class Aufgabe2Page implements OnInit {
   isSupported = false;
