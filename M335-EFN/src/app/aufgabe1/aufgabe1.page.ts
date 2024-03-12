@@ -47,7 +47,7 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
 
     this.watchId = (await Geolocation.watchPosition(options, (position, err) => {
       if (position) {
-        if (this.initialDistanceSet === false) {
+        if (!this.initialDistanceSet) {
           this.initialDistanceSet = true;
           this.targetLocation.initialDistance = this.haversineDistance(
             { lat: position.coords.latitude, lng: position.coords.longitude },
@@ -83,7 +83,6 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
   updateDistance() {
     this.distance = this.haversineDistance(this.location, this.targetLocation);
     if (this.distance !== null && this.distance <= 5) {
-      // Wenn Distanz kleiner oder gleich 5 Meter ist
       this.targetReached();
     } else {
       this.updateDistanceMarkers();

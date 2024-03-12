@@ -22,11 +22,9 @@
   </ion-item>
 
   <div class="distance-display-container" *ngIf="distance !== null && distance > 5">
-    <div class="distance-display">
-      <span>Start</span>
-      <div class="distance-indicator">{{ distanceMarkers }}</div>
-      <span>Ziel</span>
-    </div>
+    <div class="start-text">Start</div>
+    <div class="distance-indicator">{{ distanceMarkers }}</div>
+    <div class="end-text">Ziel</div>
   </div>
 
   <div *ngIf="distance !== null && distance < 5" class="congratulations-block">
