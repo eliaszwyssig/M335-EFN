@@ -26,7 +26,6 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
   distanceMarkers: string = '';
   initialDistanceSet: boolean = false;
   sec: number = 0;
-  isSuccessfullCalled: boolean = false;
 
   constructor(private platform: Platform, private routerOutlet: IonRouterOutlet, private router: Router, private resultService: ResultServiceService) {
     this.startTimer();
@@ -123,11 +122,9 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
 
   targetReached() {
     this.stopWatchingPosition();
-    if (!this.isSuccessfullCalled)
-    {
-      this.isSuccessfullCalled = true;
+
       this.isSuccessfull();
-    }
+
     this.router.navigateByUrl('/nächsteSeite');
   }
   startTimer(): void {
