@@ -18,13 +18,15 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
   targetLocation = { lat: 47.071586, lng: 8.348635 };
   watchId: string | null = null;
   timer: any;
+  sec: number = 0;
 
   constructor(private router: Router, private resultService: ResultServiceService) {
-    this.startTimer();
+
   }
 
   ngOnInit() {
     this.startWatchingPosition();
+    this.startTimer();
   }
 
   ngOnDestroy() {
@@ -79,16 +81,15 @@ export class Aufgabe1Page implements OnInit, OnDestroy {
   }
   startTimer(): void {
     this.timer = setInterval(() => {
-      console.log('Timer tick');
+      this.sec++;
     }, 1000)
   }
   stopTimer(): void {
     clearInterval(this.timer);
   }
   isSuccessfull(): void{
-      this.resultService.getResult(this.timer);
-      this.stopTimer();
-
+    this.stopTimer();
+      this.resultService.getResult(this.sec);
   }
   haversineDistance(source: { lat: number, lng: number }, target: { lat: number, lng: number }): number {
     const toRad = (value: number) => (value * Math.PI) / 180;

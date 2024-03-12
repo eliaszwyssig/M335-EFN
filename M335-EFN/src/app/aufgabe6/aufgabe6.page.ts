@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -17,16 +17,19 @@ import {Router} from "@angular/router";
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
-export class Aufgabe6Page {
+export class Aufgabe6Page implements OnInit{
   isConnectedToWifi = false;
   isDisconnectedToWifi: boolean = false;
   timer: any;
+  sec: number = 0;
 
   constructor(private router: Router, private resultService: ResultServiceService) {
     addIcons({ wifiSharp });
     this.checkWifiConnection();
     setInterval(() => this.checkWifiConnection(), 5000);
-    this.startTimer();
+    ;
+  }
+  ngOnInit() {this.startTimer();
   }
 
   async checkWifiConnection() {
@@ -36,11 +39,13 @@ export class Aufgabe6Page {
     } else {
       this.isDisconnectedToWifi = true;
     }
-    this.isSuccessfull();
+    if(this.isConnectedToWifi && this.isDisconnectedToWifi) {
+      this.isSuccessfull();
+    }
   }
   startTimer(): void {
     this.timer = setInterval(() => {
-      console.log('Timer tick');
+      this.sec++;
     }, 1000)
   }
   stopTimer(): void {
@@ -48,9 +53,9 @@ export class Aufgabe6Page {
   }
 
   isSuccessfull(): void{
-    if (this.isDisconnectedToWifi && this.isConnectedToWifi){
-    this.resultService.getResult(this.timer);
-    this.stopTimer();
+    if (this.isDisconnectedToWifi && this.isConnectedToWifi){this.stopTimer();
+    this.resultService.getResult(this.sec);
+
     }
   }
 

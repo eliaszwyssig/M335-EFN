@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
+import {ResultServiceService} from "../result-service.service";
 
 @Component({
   selector: 'app-aufgabe2',
@@ -16,13 +17,16 @@ export class Aufgabe2Page implements OnInit {
   isSupported = false;
   isDone: boolean = false;
   wrongQRCode: string = '';
+  timer: any;
+  sec: number =  0;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private resultService: ResultServiceService) {}
 
   ngOnInit() {
     BarcodeScanner.isSupported().then((result) => {
       this.isSupported = result.supported;
     });
+    this.startTimer();
   }
 
   async scanQRCode() {
@@ -38,6 +42,7 @@ export class Aufgabe2Page implements OnInit {
         if (scannedCode.rawValue === 'M335-EFN') {
           this.isDone = true;
           this.wrongQRCode = '';
+          this.isSuccessfull();
         } else {
           this.isDone = false;
           this.wrongQRCode = 'Falscher QR-Code!';
@@ -53,6 +58,17 @@ export class Aufgabe2Page implements OnInit {
       }
       this.wrongQRCode = `Fehler beim Scannen: ${errorMessage}`;
     }
+  }startTimer(): void {
+    this.timer = setInterval(() => {
+      this.sec++;
+    }, 1000)
+  }
+  stopTimer(): void {
+    clearInterval(this.timer);
+  }
+  isSuccessfull(): void{
+    this.stopTimer();
+    this.resultService.getResult(this.sec);
   }
 
   goToExercise3() {

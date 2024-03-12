@@ -18,6 +18,8 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
   targetDistance = 10;
   startPosition: Position | null = null;
   watchId: string | null = null;
+  timer: any;
+  sec: number = 0;
 
   constructor(
     private router: Router,
@@ -26,6 +28,7 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.startWatchingPosition();
+    this.startTimer();
   }
 
   ngOnDestroy() {
@@ -73,6 +76,7 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
 
   targetReached() {
     this.stopWatchingPosition();
+    this.isSuccessfull();
     this.router.navigateByUrl('/nächsteSeite');
   }
 
@@ -86,5 +90,17 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
     if (this.currentDistance >= this.targetDistance) {
       this.router.navigateByUrl('/aufgabe4');
     }
+  }
+  startTimer(): void {
+    this.timer = setInterval(() => {
+      this.sec++;
+    }, 1000)
+  }
+  stopTimer(): void {
+    clearInterval(this.timer);
+  }
+  isSuccessfull(): void{
+    this.stopTimer();
+    this.resultService.getResult(this.sec);
   }
 }

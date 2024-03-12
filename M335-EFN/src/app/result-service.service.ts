@@ -8,26 +8,25 @@ export class ResultServiceService {
 schnitzelCounter: number = 0;
 potatoCounter: number = 0;
 overallTime: number = 0;
-tasks: number = 0;
 name: string = '';
   constructor() { }
 
   getResult(timeTaken: number): void {
-    this.tasks++;
-    this.setOverallTime(timeTaken);
-
-    if(timeTaken <= 3)
+    if(timeTaken <= 30)
     {
       this.schnitzelCounter++;
+      console.log(this.schnitzelCounter);
     }
-    else {
-      this.schnitzelCounter++
+    else  {
+      this.schnitzelCounter++;
       this.potatoCounter++;
+      console.log('potato');
     }
-
+    this.setOverallTime(timeTaken);
   }
 
   setOverallTime(timeTaken: number): void{
-    this.overallTime + timeTaken;
+    this.overallTime += timeTaken;
+    console.log(this.overallTime);
   }
 }

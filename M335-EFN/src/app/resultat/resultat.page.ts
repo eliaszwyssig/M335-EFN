@@ -15,10 +15,10 @@ export class ResultatPage implements OnInit {
 
   constructor(private resultService: ResultServiceService) { }
 
-  name: any;
-  time: any;
-  schnitzel: any;
-  potato: any;
+  name: any = 0;
+  time: any = 0;
+  schnitzel: any = 0;
+  potato: any = 0;
   ngOnInit() {
     this.name= this.resultService.name
     this.time= this.resultService.overallTime

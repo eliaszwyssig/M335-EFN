@@ -16,12 +16,14 @@ export class Aufgabe5Page implements OnInit{
   timer: any;
   turnedRight: boolean = false;
   turnedLeft: boolean = false;
+  sec: number = 0;
 
   ngOnInit() {
     window.addEventListener('orientationchange', this.checkOrientation);
+    this.startTimer();
   }
   constructor(private router: Router, private resultService: ResultServiceService) {
-    this.startTimer();
+
   }
 
   async goToExercise6(){
@@ -38,7 +40,7 @@ export class Aufgabe5Page implements OnInit{
   }
   startTimer(): void {
     this.timer = setInterval(() => {
-      console.log('Timer tick');
+     this.sec++;
     }, 1000)
   }
   stopTimer(): void {
@@ -46,8 +48,9 @@ export class Aufgabe5Page implements OnInit{
   }
   isSuccessfull(): void{
     if(this.turnedRight && this.turnedLeft)  {
-      this.resultService.getResult(this.timer);
       this.stopTimer();
+      this.resultService.getResult(this.sec);
+
     }
   }
 }

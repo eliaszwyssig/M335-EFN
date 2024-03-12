@@ -1,11 +1,11 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Device } from "@capacitor/device";
 import { IonicModule } from "@ionic/angular";
-import {NgIf} from "@angular/common";
-import {batteryDead, batteryCharging} from "ionicons/icons";
-import {addIcons} from "ionicons";
-import {ResultServiceService} from "../result-service.service";
+import { NgIf } from "@angular/common";
+import { batteryDead, batteryCharging } from "ionicons/icons";
+import { addIcons } from "ionicons";
+import { ResultServiceService } from "../result-service.service";
 
 @Component({
   selector: 'app-aufgabe4',
@@ -14,15 +14,20 @@ import {ResultServiceService} from "../result-service.service";
   standalone: true,
   imports: [IonicModule, NgIf]
 })
-export class Aufgabe4Page implements OnDestroy {
+export class Aufgabe4Page implements OnInit, OnDestroy {
   isCharging: boolean = false;
   intervalId: any;
   timer: any;
+  sec: number = 0;
+  isSuccessfullCalled: boolean = false;
 
   constructor(private router: Router, private resultService: ResultServiceService) {
-    this.startChargingStatusCheck();
-    addIcons({batteryCharging,batteryDead })
+    addIcons({ batteryCharging, batteryDead });
+  }
+
+  ngOnInit() {
     this.startTimer();
+    this.startChargingStatusCheck();
   }
 
   async goToExercise6() {
@@ -30,33 +35,37 @@ export class Aufgabe4Page implements OnDestroy {
   }
 
   startChargingStatusCheck() {
-    this.checkChargingStatus();
     this.intervalId = setInterval(() => {
       this.checkChargingStatus();
-    }, 1);
+    }, 1000); // Check every 1 second
   }
 
   async checkChargingStatus() {
     const info = await Device.getBatteryInfo();
-    this.isCharging = info.isCharging ?? false;
-    this.isSuccessfull();
+    const isCharging = info.isCharging ?? false;
+    if (isCharging && !this.isSuccessfullCalled) {
+      this.isSuccessfullCalled = true;
+      this.isSuccessfull();
+    }
+    this.isCharging = isCharging;
   }
 
   ngOnDestroy() {
     clearInterval(this.intervalId);
   }
+
   startTimer(): void {
     this.timer = setInterval(() => {
-      console.log('Timer tick');
-    }, 1000)
+      this.sec++;
+    }, 1000); // Start timer to tick every 1 second
   }
+
   stopTimer(): void {
     clearInterval(this.timer);
   }
-  isSuccessfull(): void{
-    if(this.isCharging)  {
-      this.resultService.getResult(this.timer);
-      this.stopTimer();
-    }
+
+  isSuccessfull(): void {
+    this.stopTimer();
+    this.resultService.getResult(this.sec); // Assuming getResult needs the timer ID
   }
 }
