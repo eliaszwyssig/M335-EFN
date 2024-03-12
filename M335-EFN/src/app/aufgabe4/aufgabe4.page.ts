@@ -94,6 +94,6 @@ export class Aufgabe4Page implements OnInit, OnDestroy {
 
   isSuccessfull(): void {
     this.stopTimer();
-    this.resultService.getResult(this.sec); // Assuming getResult needs the timer ID
+    this.resultService.getResult(this.sec);
   }
 }
