@@ -21,10 +21,11 @@
     <h4>{{ distance | number: '1.2-2' }} Meter</h4>
   </ion-item>
 
-  <div class="distance-display-container" *ngIf="distance !== null && distance > 5">
-    <div class="start-text">Start</div>
-    <div class="distance-indicator">{{ distanceMarkers }}</div>
-    <div class="end-text">Ziel</div>
+  <div *ngIf="distance !== null && distance > 5" class="distance-display-container" style="margin-left: 50px; margin-top: 20px">
+    <div class="distance-display">
+      <div class="distance-indicator">{{ distanceMarkers }} Hänggiplatz</div>
+
+    </div>
   </div>
 
   <div *ngIf="distance !== null && distance < 5" class="congratulations-block">
