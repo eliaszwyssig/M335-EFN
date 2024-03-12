@@ -1,16 +1,16 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Resultate </ion-title>
+    <ion-title>Resultat deiner Schnitzeljagd</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div class="result-list">
     <div class="item">
-      <h4>Name: {{name}}</h4>
+      <h4>Dein Name: {{name}}</h4>
     </div>
     <div class="item">
-      <h4>Zeit: {{time}}</h4>
+      <h4>Deine Zeit: {{time}}</h4>
     </div>
     <div class="item">
       <h4>Anzahl Schnitzel: {{schnitzel}}</h4>
@@ -20,7 +20,7 @@
     </div>
   </div>
   <ion-button (click)="goToStartPage()">
-    zurück zum Hauptmenü
+    Zurück zum Hauptmenü
   </ion-button>
 </ion-content>
 

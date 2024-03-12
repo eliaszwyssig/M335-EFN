@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef} from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -27,11 +27,10 @@ export class sjtabPage {
   showNameInput = false;
   playerName: string = '';
   showError: boolean = false;
+  nameInputField?: IonInput;
 
   constructor(public alertController: AlertController,
               private router: Router, private resultService: ResultServiceService) { }
-
-
 
   toggleNameInput(show: boolean) {
     this.showNameInput = show;
@@ -49,6 +48,7 @@ export class sjtabPage {
       this.resultService.name = this.playerName
       this.router.navigateByUrl('/permissions');
     }
+    this.playerName = "";
   }
 
   resetError() {
