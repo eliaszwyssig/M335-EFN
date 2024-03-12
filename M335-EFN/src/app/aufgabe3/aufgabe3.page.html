@@ -19,7 +19,7 @@
     Noch {{ remainingDistance | number:'1.0-2' }} Meter
   </div>
 
-  <div class="success-message" *ngIf="currentDistance >= targetDistance">
+  <div class="success-message" *ngIf="remainingDistance === 0">
     <h4>Herzliche Glückwunsch, du hast die Aufgabe 3 geschafft!</h4>
     <ion-button  (click)="goToExercise4()">
       Weiter zur Aufgabe 4

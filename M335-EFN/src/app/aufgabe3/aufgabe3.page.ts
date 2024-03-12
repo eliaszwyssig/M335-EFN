@@ -92,7 +92,7 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
   }
 
   goToExercise4() {
-    if (this.currentDistance >= this.targetDistance) {
+    if (this.remainingDistance === 0) {
       this.router.navigateByUrl('/aufgabe4');
     }
   }
