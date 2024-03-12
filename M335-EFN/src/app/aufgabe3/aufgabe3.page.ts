@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, IonRouterOutlet, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ResultServiceService } from '../result-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-aufgabe3',
@@ -22,10 +23,13 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
   watchId: string | null = null;
   timer: any;
   sec: number = 0;
+  private backSubscription: Subscription | undefined;
 
   constructor(
     private router: Router,
-    private resultService: ResultServiceService
+    private resultService: ResultServiceService,
+    private platform: Platform,
+    private routerOutlet: IonRouterOutlet
   ) {}
 
   ngOnInit() {
@@ -35,6 +39,23 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.stopWatchingPosition();
+    this.stopTimer();
+    this.backSubscription?.unsubscribe();
+  }
+
+  ionViewDidEnter() {
+    this.backSubscription = this.platform.backButton.subscribeWithPriority(
+      10,
+      () => {
+        if (!this.routerOutlet.canGoBack()) {
+          // Prevent back button action if desired
+        }
+      },
+    );
+  }
+
+  ionViewWillLeave() {
+    this.backSubscription?.unsubscribe();
   }
 
   async startWatchingPosition() {
@@ -66,6 +87,7 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
       }
     }
   }
+
 
   calculateDistance(start: Position, end: Position): number {
     const toRad = (value: number) => (value * Math.PI) / 180;

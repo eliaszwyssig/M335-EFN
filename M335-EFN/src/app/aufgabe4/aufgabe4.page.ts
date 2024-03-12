@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Device } from "@capacitor/device";
-import { IonicModule } from "@ionic/angular";
+import { IonicModule, Platform, IonRouterOutlet } from "@ionic/angular";
 import { NgIf } from "@angular/common";
 import { batteryDead, batteryCharging } from "ionicons/icons";
 import { addIcons } from "ionicons";
 import { ResultServiceService } from "../result-service.service";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-aufgabe4',
@@ -20,14 +21,41 @@ export class Aufgabe4Page implements OnInit, OnDestroy {
   timer: any;
   sec: number = 0;
   isSuccessfullCalled: boolean = false;
+  private backSubscription: Subscription | undefined;
 
-  constructor(private router: Router, private resultService: ResultServiceService) {
+  constructor(
+    private router: Router,
+    private resultService: ResultServiceService,
+    private platform: Platform,
+    private routerOutlet: IonRouterOutlet
+  ) {
     addIcons({ batteryCharging, batteryDead });
   }
 
   ngOnInit() {
     this.startTimer();
     this.startChargingStatusCheck();
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.intervalId);
+    this.stopTimer();
+    this.backSubscription?.unsubscribe();
+  }
+
+  ionViewDidEnter() {
+    this.backSubscription = this.platform.backButton.subscribeWithPriority(
+      10,
+      () => {
+        if (!this.routerOutlet.canGoBack()) {
+          // Optional: Alert message, toast, or no action
+        }
+      },
+    );
+  }
+
+  ionViewWillLeave() {
+    this.backSubscription?.unsubscribe();
   }
 
   async goToExercise6() {
@@ -48,10 +76,6 @@ export class Aufgabe4Page implements OnInit, OnDestroy {
       this.isSuccessfull();
     }
     this.isCharging = isCharging;
-  }
-
-  ngOnDestroy() {
-    clearInterval(this.intervalId);
   }
 
   startTimer(): void {

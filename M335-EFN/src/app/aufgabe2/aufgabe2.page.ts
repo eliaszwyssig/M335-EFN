@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { Router } from '@angular/router';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {IonicModule} from '@ionic/angular';
-import {ResultServiceService} from "../result-service.service";
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule, Platform, IonRouterOutlet } from '@ionic/angular';
+import { ResultServiceService } from "../result-service.service";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-aufgabe2',
@@ -19,8 +20,14 @@ export class Aufgabe2Page implements OnInit {
   wrongQRCode: string = '';
   timer: any;
   sec: number =  0;
+  private backSubscription: Subscription | undefined;
 
-  constructor(private router: Router, private resultService: ResultServiceService) {}
+  constructor(
+    private router: Router,
+    private resultService: ResultServiceService,
+    private platform: Platform,
+    private routerOutlet: IonRouterOutlet
+  ) {}
 
   ngOnInit() {
     BarcodeScanner.isSupported().then((result) => {
@@ -76,4 +83,18 @@ export class Aufgabe2Page implements OnInit {
       this.router.navigateByUrl('/aufgabe3');
     }
   }
+
+  ionViewDidEnter() {
+    this.backSubscription = this.platform.backButton.subscribeWithPriority(
+      10,
+      () => {
+        if (!this.routerOutlet.canGoBack()) {
+        }
+      },
+    );
+  }
+  ionViewWillLeave() {
+    this.backSubscription?.unsubscribe();
+  }
+
 }
