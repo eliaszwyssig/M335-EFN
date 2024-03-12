@@ -14,6 +14,7 @@ import { ResultServiceService } from '../result-service.service';
   imports: [IonicModule, CommonModule, FormsModule, DecimalPipe]
 })
 export class Aufgabe3Page implements OnInit, OnDestroy {
+  location: { lat: number; lng: number } = { lat: 0, lng: 0 };
   currentDistance = 0;
   targetDistance = 10;
   startPosition: Position | null = null;
@@ -54,7 +55,9 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
   }
 
   updateLocation(position: Position) {
-    if (this.startPosition) {
+    if (!this.startPosition) {
+      this.startPosition = position;
+    } else {
       this.currentDistance = this.calculateDistance(this.startPosition, position);
       if (this.currentDistance >= this.targetDistance) {
         this.targetReached();
