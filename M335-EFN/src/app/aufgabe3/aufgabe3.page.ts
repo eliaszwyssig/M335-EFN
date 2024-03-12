@@ -14,6 +14,7 @@ import { ResultServiceService } from '../result-service.service';
   imports: [IonicModule, CommonModule, FormsModule, DecimalPipe]
 })
 export class Aufgabe3Page implements OnInit, OnDestroy {
+  remainingDistance: number | null = null;
   location: { lat: number; lng: number } = { lat: 0, lng: 0 };
   currentDistance = 0;
   targetDistance = 10;
@@ -58,8 +59,9 @@ export class Aufgabe3Page implements OnInit, OnDestroy {
     if (!this.startPosition) {
       this.startPosition = position;
     } else {
-      this.currentDistance = this.calculateDistance(this.startPosition, position);
-      if (this.currentDistance >= this.targetDistance) {
+      const distanceCovered = this.calculateDistance(this.startPosition, position);
+      this.remainingDistance = Math.max(0, this.targetDistance - distanceCovered);
+      if (distanceCovered >= this.targetDistance) {
         this.targetReached();
       }
     }

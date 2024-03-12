@@ -15,8 +15,8 @@
     <h4>Laufe 10 Meter !</h4>
   </div>
 
-  <div class="walk-text">
-    Distanz: {{ currentDistance | number:'1.0-2' }} Meter
+  <div class="remaining-distance" *ngIf="remainingDistance !== null" style="margin-left:120px; margin-top:100px">
+    Noch {{ remainingDistance | number:'1.0-2' }} Meter
   </div>
 
   <div class="success-message" *ngIf="currentDistance >= targetDistance">
