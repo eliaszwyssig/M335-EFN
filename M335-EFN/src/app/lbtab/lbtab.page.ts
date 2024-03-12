@@ -51,13 +51,13 @@ export class lbtabPage{
     });
   }
 
-  addLeaderboardEntry() {
+  addLeaderboardEntry(playerName: string, time: string, schnitzel: number, potato: number) {
     const newEntry: Leaderboard = {
-      playerName: 'Test',
+      playerName: playerName,
       date: new Date(),
-      time: "3:00",
-      schnitzel: 2,
-      potato: 1
+      time: time,
+      schnitzel: schnitzel,
+      potato: potato
     };
     this.leaderboards.push(newEntry);
     this.saveLeaderboards();
