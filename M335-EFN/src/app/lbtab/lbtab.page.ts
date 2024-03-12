@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -14,6 +14,9 @@ import {NgFor} from "@angular/common";
 import {Storage} from "@ionic/storage-angular";
 import {Leaderboard} from "./leaderboard";
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-lbtab',
   templateUrl: 'lbtab.page.html',
@@ -65,8 +68,8 @@ export class lbtabPage{
   }
 
   convertTimeToSeconds(timeString: string): number {
-    const [hours, minutes] = timeString.split(':').map(Number);
-    return hours * 3600 + minutes * 60;
+    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+    return hours * 3600 + minutes * 60 + seconds;
   }
 
 }

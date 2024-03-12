@@ -35,10 +35,15 @@ name: string = '';
     }
   }
   convertTimeToString(totalSeconds: number): void {
-    const minutes: number = Math.floor(totalSeconds / 60);
-    const seconds: number = totalSeconds % 60;
+    const hours: number = Math.floor(totalSeconds / 3600);
+    const remainingSeconds: number = totalSeconds % 3600;
+    const minutes: number = Math.floor(remainingSeconds / 60);
+    const seconds: number = remainingSeconds % 60;
+
+    const hoursString: string = String(hours).padStart(2, '0');
     const minutesString: string = String(minutes).padStart(2, '0');
     const secondsString: string = String(seconds).padStart(2, '0');
-    this.timeString = `${minutesString}:${secondsString}`;
+
+    this.timeString = `${hoursString}:${minutesString}:${secondsString}`;
   }
 }
