@@ -16,24 +16,21 @@
     <ion-note slot="end">{{ location.lat }}, {{ location.lng }}</ion-note>
   </ion-item>
 
-  <ion-item *ngIf="distance !== null && distance > 3">
+  <ion-item *ngIf="distance !== null && distance > 5">
     <ion-label>Entfernung zum Ziel:</ion-label>
     <h4>{{ distance | number: '1.2-2' }} Meter</h4>
   </ion-item>
 
-  <div *ngIf="distance ? distance > 5 : false" class="distance-box">
-    <h3>Distanzanzeige:</h3>
+  <div class="distance-display-container" *ngIf="distance !== null && distance > 5">
+    <div class="start-text">Start</div>
     <div class="distance-indicator">{{ distanceMarkers }}</div>
+    <div class="end-text">Ziel</div>
   </div>
 
-  <div *ngIf="distance !== null && distance < 3" class="congratulations-block">
+  <div *ngIf="distance !== null && distance < 5" class="congratulations-block">
     <p class="congratulations-message">Herzlichen Glückwunsch, du hast das Ziel erreicht ! </p>
     <ion-button expand="block" (click)="goToExercise2()">
       Aufgabe 2
     </ion-button>
   </div>
-
-  <ion-button *ngIf="distance !== null && distance <= 5" (click)="goToExercise2()">
-    Weiter zur Aufgabe 2
-  </ion-button>
 </ion-content>

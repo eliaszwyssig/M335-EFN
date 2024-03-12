@@ -11,9 +11,18 @@
     </ion-toolbar>
   </ion-header>
 
-  <div>Distanz: {{ currentDistance | number:'1.0-2' }} Meter</div>
+  <div class="introduction-text">
+    <h4>Laufe 10 Meter !</h4>
+  </div>
 
-  <ion-button *ngIf="currentDistance >= targetDistance" (click)="goToExercise4()">
-    Weiter zur Aufgabe 4
-  </ion-button>
+  <div class="walk-text">
+    Distanz: {{ currentDistance | number:'1.0-2' }} Meter
+  </div>
+
+  <div class="success-message" *ngIf="currentDistance >= targetDistance">
+    <h4>Herzliche Glückwunsch, du hast die Aufgabe 3 geschafft ! </h4>
+    <ion-button  (click)="goToExercise4()">
+      Weiter zur Aufgabe 4
+    </ion-button>
+  </div>
 </ion-content>
